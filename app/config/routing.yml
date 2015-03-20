@@ -1,0 +1,8 @@
+perse_croissant:
+    resource: "@persoCroissantBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation

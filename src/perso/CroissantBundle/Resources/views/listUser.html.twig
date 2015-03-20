@@ -1,0 +1,11 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}List des utilisateurs{% endblock %}
+
+{% block body %}
+
+     {% for item in users %}
+                <li>{{ item.name }} - {{ item.email }} -  {{ item.coefficient }} </li>
+            {% endfor %}
+
+{% endblock %}
