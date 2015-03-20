@@ -30,7 +30,8 @@ Utilisateur inscrit : Arnaud ?, marie, Nathalie , Yann Nico, Aurelien, Anthony ,
 | Page Piège                 |   X  |          |     |
 | Liste utilisateur          |   X  |          |     |
 | Choix Utilisateur          |      |     X    |     |
-| Max une fois/mois          |      |          |  X  |
+| Ajout dans l'historique    |      |          |  X  |
+| Max une fois/3 semaines    |      |          |  X  |
 | Synchro Google             |      |          |  X  |
 | Malus non synchro          |      |          |  X  |
 | Page Joker/Acceptation     |      |          |  X  |
