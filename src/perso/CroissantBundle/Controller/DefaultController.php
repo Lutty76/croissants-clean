@@ -15,7 +15,7 @@ use perso\CroissantBundle\Form\userType;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/listUser")
+     * @Route("/listUser",name="_userList")
      * @Template()
      */
     public function listUserAction()
@@ -25,7 +25,7 @@ class DefaultController extends Controller
     }
     
     /**
-     * @Route("/listHistory")
+     * @Route("/listHistory",name="_historyList")
      * @Template()
      */
     public function listHistoryAction()
@@ -87,58 +87,105 @@ class DefaultController extends Controller
 	$token =  uniqid();
 	$arrayCoef = array();
 
-
-	foreach($user as $one)
-	    for ($i=0;$i<$one->getCoefficient();$i++)
-		array_push($arrayCoef,$one->getId());
-
-	shuffle ($arrayCoef);
-	echo '|'.$token.'|';
-
-	$rand = rand(0,sizeof($arrayCoef)-1);
-	$user = $this->getDoctrine()->getRepository('persoCroissantBundle:user')->findOneById($arrayCoef[$rand] );
-	unset($arrayCoef[$rand]);
-	$arrayCoef= array_values($arrayCoef) ; //Array_slice will be better 
-	$historyUser = $em->createQuery('
+	   // Verifier si personne ne s'est pas déja proposé
+	$historyCroissant = $em->createQuery('
 	SELECT h FROM persoCroissantBundle:history h
-	WHERE h.dateCroissant >= :date_from'  )->setParameter('date_from', date("Y-m-d H:i:s",strtotime("-3 weeks")))->getResult();
+	WHERE h.dateCroissant >= :date_from'  )->setParameter('date_from', date("Y-m-d H:i:s",strtotime("-1 weeks")))->getResult();
+	if (sizeof($historyCroissant)==0){
+	    foreach($user as $one)
+		for ($i=0;$i<$one->getCoefficient();$i++)
+		    array_push($arrayCoef,$one->getId());
 
+	    shuffle ($arrayCoef);
+	    echo '|'.$token.'|';
 
-	while(sizeof($historyUser)!=0)
-	{
+	    $rand = rand(0,sizeof($arrayCoef)-1);
+	    $user = $this->getDoctrine()->getRepository('persoCroissantBundle:user')->findOneById($arrayCoef[$rand] );
 	    unset($arrayCoef[$rand]);
 	    $arrayCoef= array_values($arrayCoef) ; //Array_slice will be better 
-	   
-	    if (sizeof($arrayCoef)>0){
-		$rand = rand(0,sizeof($arrayCoef)-1);
-		$user = $this->getDoctrine()->getRepository('persoCroissantBundle:user')->findOneById($arrayCoef[$rand] );
-
-		$historyUser = $em->createQuery('
-		SELECT h FROM persoCroissantBundle:history h
-		WHERE h.dateCroissant >= :date_from AND h.idUser = :idUser' )->setParameter('date_from', date("Y-m-d H:i:s",strtotime("-3 weeks")))->setParameter('idUser', $user->getId())->getResult(); 
-	    }else{ return $this->render('persoCroissantBundle::notFoundUser.html.twig'); }
+	    $historyUser = $em->createQuery('
+	    SELECT h FROM persoCroissantBundle:history h
+	    WHERE h.dateCroissant >= :date_from'  )->setParameter('date_from', date("Y-m-d H:i:s",strtotime("-3 weeks")))->getResult();
 
 
-	}     
-	$user->setToken($token);
-	$history = new \perso\CroissantBundle\Entity\history();
-	$history->setIdUser($user->getId());
-	$history->setDateCroissant(new DateTime(date("Y-M-d")));
-	$history->setOk(0);
-	$em->persist($history);
-	$em->flush();
+	    while(sizeof($historyUser)!=0)
+	    {
+		unset($arrayCoef[$rand]);
+		$arrayCoef= array_values($arrayCoef) ; //Array_slice will be better 
 
-	$message = \Swift_Message::newInstance()
-        ->setSubject('Vous avez été tiré au sort pour les croissants !')
-        ->setFrom('kevin@creativedata.fr')
-        ->setTo("kevin@creativedata.fr") //TODO set good email $user->etEmail();
-        ->setBody($this->renderView('persoCroissantBundle::email.txt.twig', array('user' => $user)))
-        ->addPart($this->renderView('persoCroissantBundle::email.html.twig', array('user' => $user)),"text/html") ;
-	$this->get('mailer')->send($message);
-	
+		if (sizeof($arrayCoef)>0){
+		    $rand = rand(0,sizeof($arrayCoef)-1);
+		    $user = $this->getDoctrine()->getRepository('persoCroissantBundle:user')->findOneById($arrayCoef[$rand] );
+
+		    $historyUser = $em->createQuery('
+		    SELECT h FROM persoCroissantBundle:history h
+		    WHERE h.dateCroissant >= :date_from AND h.idUser = :idUser' )->setParameter('date_from', date("Y-m-d H:i:s",strtotime("-3 weeks")))->setParameter('idUser', $user->getId())->getResult(); 
+		}else{ return $this->render('persoCroissantBundle::notFoundUser.html.twig'); }
+
+
+	    }     
+	    $user->setToken($token);
+	    $history = new \perso\CroissantBundle\Entity\history();
+	    $history->setIdUser($user->getId());
+	    $history->setDateCroissant(new DateTime(date("Y-M-d")));
+	    $history->setOk(0);
+	    $em->persist($history);
+	    $em->flush();
+
+	    $message = \Swift_Message::newInstance()
+	    ->setSubject('Vous avez été tiré au sort pour les croissants !')
+	    ->setFrom('kevin@creativedata.fr')
+	    ->setTo("kevin@creativedata.fr") //TODO set good email $user->etEmail();
+	    ->setBody($this->renderView('persoCroissantBundle::email.txt.twig', array('user' => $user)))
+	    ->addPart($this->renderView('persoCroissantBundle::email.html.twig', array('user' => $user)),"text/html") ;
+	    $this->get('mailer')->send($message);
+	}else
+	{
+	    return new Response(json_encode("ok"));
+	}
 	return $this->render('persoCroissantBundle::chose.html.twig',array('chosen'=> $user ));
 
     } 
+    
+    
+     /**
+      * @Route("/profil/{id}",name="_profil")
+      * @Template()
+      */
+     public function userProfilAction($id){   
+	 
+	    $user = $this->getDoctrine()->getRepository('persoCroissantBundle:user')->findOneById($id);
+	    $history = $this->getDoctrine()->getRepository('persoCroissantBundle:history')->findOneByIdUser($id);
+	return $this->render('persoCroissantBundle::profil.html.twig',array('user'=> $user,"history"=> $history ));
+     
+     }
+     
+     
+     /**
+      * @Route("/offer/{id}",name="_offer")
+      * @Template()
+      */
+     public function userAskAction($id){   
+    
+	$em = $this->getDoctrine()->getManager();
+	$historyCroissant = $em->createQuery('
+	SELECT h FROM persoCroissantBundle:history h
+	WHERE h.dateCroissant >= :date_from'  )->setParameter('date_from', date("Y-m-d H:i:s",strtotime("-1 weeks")))->getResult();
+	if (sizeof($historyCroissant)==0){
+	
+	    $history = new \perso\CroissantBundle\Entity\history();
+	    $history->setIdUser($id);
+	    $history->setDateCroissant(new DateTime(date("Y-M-d")));
+	    $history->setOk(1);
+	    $em->persist($history);
+	    $em->flush();
+
+	    return new Response(json_encode("ok"));
+	}
+	else{
+	    return new Response(json_encode("Quelqu'un s'est déjà proposé cette semaine"));
+	}
+     }
     
      /**
       * @Route("/userAccept/{token}")

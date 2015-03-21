@@ -6,7 +6,7 @@
 <h3>Liste des participants</h3>
 <table><tr><th>ID</th><th>Nom</th><th>Email</th><th>Coefficient</th><th>Don</th><th>Joker</th></tr>
      {% for item in users %}
-                <tr><td>{{ item.id }} </td><td> {{ item.name }}  </td><td> {{ item.email }}  </td><td>  {{ item.coefficient }}  </td><td> {{ item.premium }}  </td><td> {{ item.joker }}</td></tr>
+               <tr> <td> <a href="{{ path('_profil',{ id :  item.id  }) }}">{{ item.id }} </a> </td><td><a href="{{ path('_profil',{ id :  item.id  }) }}"> {{ item.name }}</a>  </td><td> <a href="{{ path('_profil',{ id :  item.id  }) }}">{{ item.email }} </a> </td><td>  {{ item.coefficient }}  </td><td> {{ item.premium }}  </td><td> {{ item.joker }}</td></tr>
             {% endfor %}
 </table>
 {% endblock %}

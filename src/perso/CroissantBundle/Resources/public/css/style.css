@@ -53,6 +53,13 @@ root {
     cursor:pointer;
   background:#FFF9F9;
 }
+
+#content table tr td a {
+color:black;
+text-decoration:none;
+display:block;
+    
+}
 #sidebar{
     background : FFF;
     border:1px solid #DDD;

@@ -9,10 +9,11 @@
     <body>
         <div id="sidebar">
             {% block sidebar %}
-            <p><a href="/">Mon profil</a></p>
-            <p><a href="/stats">Historique</a></p>
-            <p><a href="/stats">Liste user</a></p>
+            <p><a href="{{ path('_profil',{ id : 1 }) }}">Mon profil</a></p>
+            <p><a href="{{ path('_historyList') }}">Historique</a></p>
+            <p><a href="{{ path('_userList') }}">Utilisateurs</a></p>
             <p><a href="/stats">Statistique</a></p>
+            <p><a href="{{ path('_offer',{ id : 1 }) }}">Donation</a></p>
            
             {% endblock %}
         </div>

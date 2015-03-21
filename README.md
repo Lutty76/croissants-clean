@@ -29,7 +29,7 @@ Utilisateur inscrit : Arnaud ?, marie, Nathalie , Yann Nico, Aurelien, Anthony ,
 | Coefficient                |   X  |          |     |
 | Page Piège                 |   X  |          |     |
 | Liste utilisateur          |   X  |          |     |
-| Choix Utilisateur          |      |     X    |     |
+| Choix Utilisateur          |   X  |          |     |
 | Ajout dans l'historique    |   X  |          |     |
 | Max une fois/3 semaines    |   X  |          |     |
 | Synchro Google             |      |          |  X  |
@@ -39,8 +39,7 @@ Utilisateur inscrit : Arnaud ?, marie, Nathalie , Yann Nico, Aurelien, Anthony ,
 | Accepter d'office          |   X  |          |     |
 | Envoi mail                 |   X  |          |     |
 | Securisation               |      |          |  X  |
-| Anniversaire               |      |          |  X  |
-| Anniversaire a venir ?     |      |          |  X  |
+| Se proposer                |   X  |          |     |
 | Statistique                |      |          |  X  |
 | Design                     |      |     X    |     |
 | Cas d'erreur               |      |          |  X  |
