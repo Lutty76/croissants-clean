@@ -128,6 +128,14 @@ class DefaultController extends Controller
 	$em->persist($history);
 	$em->flush();
 
+	$message = \Swift_Message::newInstance()
+        ->setSubject('Vous avez été tiré au sort pour les croissants !')
+        ->setFrom('kevin@creativedata.fr')
+        ->setTo("kevin@creativedata.fr") //TODO set good email $user->etEmail();
+        ->setBody($this->renderView('persoCroissantBundle::email.txt.twig', array('user' => $user)))
+        ->addPart($this->renderView('persoCroissantBundle::email.html.twig', array('user' => $user)),"text/html") ;
+	$this->get('mailer')->send($message);
+	
 	return $this->render('persoCroissantBundle::chose.html.twig',array('chosen'=> $user ));
 
     } 
@@ -206,6 +214,41 @@ class DefaultController extends Controller
 	return $this->render('persoCroissantBundle::trapUser.html.twig',array('user'=>$user,'dateFlag'=> new DateTime(),"ipUser"=> $_SERVER['REMOTE_ADDR']));
     }
     
+    /**
+     * @Route("/forceAccept")
+     * @Template()
+     */
+    public function forceAcceptAction()
+    { 
+	$em = $this->getDoctrine()->getManager();
+	$history = $em->getRepository('persoCroissantBundle:history')->findOneByOk(0);
+	
+	    $history->setOk(1);
+	    $em->flush();
+	
+	return new Response(json_encode("ok"));
+    }
+    
+    /**
+     * @Route("/sendEmail")
+     * @Template()
+     */
+    public function sendEmailAction()
+    { 
+	$em = $this->getDoctrine()->getManager();
+	$history = $em->getRepository('persoCroissantBundle:history')->findOneByOk(1);
+	$user =  $em->getRepository('persoCroissantBundle:user')->findOneById($history->getIdUser());
+	
+	$message = \Swift_Message::newInstance()
+        ->setSubject($user->getName().' a été tiré au sort pour les croissants !')
+        ->setFrom('kevin@creativedata.fr')
+        ->setTo("kevin@creativedata.fr") //TODO set good email $user->etEmail();
+        ->setBody($user->getName()." ramènera les croissants demain !")
+        ->addPart($user->getName()." ramènera les croissants demain !") ;
+	$this->get('mailer')->send($message);
+	
+	return new Response(json_encode("ok"));
+    }
     
     /**
      * @Route("/truncateHistory")
