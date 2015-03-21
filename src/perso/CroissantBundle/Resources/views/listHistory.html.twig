@@ -1,0 +1,11 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}List des utilisateurs{% endblock %}
+
+{% block body %}
+<table><tr><th>ID</th><th>Date</th><th>idUser</th><th>Ok</th></tr>
+     {% for item in historys %}
+                <tr><td>{{ item.id }} </td><td> {{ item.dateCroissant|date('d/m/Y') }}  </td><td> {{ item.idUser }}  </td><td>  {{ item.Ok }}  </td></tr>
+            {% endfor %}
+</table>
+{% endblock %}

@@ -14,9 +14,9 @@ class userType extends AbstractType
     $builder
             ->add('name', 'text')
             ->add('email', 'text')
-            ->add('birthday', 'date')
-            ->add('premium', 'checkbox')
-            ->add('save', 'submit')
+            ->add('birthday', 'date', array('years' => range(date('Y') - 100, date('Y') - 16), 'format' => 'dd MM yyyy' ))
+            ->add('premium', 'checkbox', array('required' => false ))
+            ->add('save', 'submit' )
             
     ;
   }

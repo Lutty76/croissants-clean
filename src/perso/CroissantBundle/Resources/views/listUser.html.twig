@@ -3,9 +3,9 @@
 {% block title %}List des utilisateurs{% endblock %}
 
 {% block body %}
-
+<table><tr><th>ID</th><th>Nom</th><th>Email</th><th>Coefficient</th><th>Don</th><th>Joker</th></tr>
      {% for item in users %}
-                <li>{{ item.name }} - {{ item.email }} -  {{ item.coefficient }} </li>
+                <tr><td>{{ item.id }} </td><td> {{ item.name }}  </td><td> {{ item.email }}  </td><td>  {{ item.coefficient }}  </td><td> {{ item.premium }}  </td><td> {{ item.joker }}</td></tr>
             {% endfor %}
-
+</table>
 {% endblock %}

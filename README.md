@@ -30,11 +30,12 @@ Utilisateur inscrit : Arnaud ?, marie, Nathalie , Yann Nico, Aurelien, Anthony ,
 | Page Piège                 |   X  |          |     |
 | Liste utilisateur          |   X  |          |     |
 | Choix Utilisateur          |      |     X    |     |
-| Ajout dans l'historique    |      |          |  X  |
+| Ajout dans l'historique    |   X  |          |     |
 | Max une fois/3 semaines    |      |          |  X  |
 | Synchro Google             |      |          |  X  |
 | Malus non synchro          |      |          |  X  |
-| Page Joker/Acceptation     |      |          |  X  |
+| Malus pas croissant        |      |          |  X  |
+| Page Joker/Acceptation     |   X  |          |     |
 | Accepter d'office          |      |          |  X  |
 | Envoi mail                 |      |          |  X  |
 | Securisation               |      |          |  X  |
@@ -42,6 +43,7 @@ Utilisateur inscrit : Arnaud ?, marie, Nathalie , Yann Nico, Aurelien, Anthony ,
 | Anniversaire a venir ?     |      |          |  X  |
 | Statistique                |      |          |  X  |
 | Design                     |      |          |  X  |
+| Cas d'erreur               |      |          |  X  |
 
 ## Copyright
 

@@ -24,9 +24,9 @@ class history
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date", type="datetime")
+     * @ORM\Column(name="dateCroissant", type="datetime")
      */
-    private $date;
+    private $dateCroissant;
 
     /**
      * @var integer
@@ -36,9 +36,9 @@ class history
     private $idUser;
 
     /**
-     * @var boolean
+     * @var integer
      *
-     * @ORM\Column(name="ok", type="boolean")
+     * @ORM\Column(name="ok", type="integer")
      */
     private $ok;
 
@@ -54,26 +54,26 @@ class history
     }
 
     /**
-     * Set date
+     * Set dateCroissant
      *
-     * @param \DateTime $date
+     * @param \DateTime $dateCroissant
      * @return history
      */
-    public function setDate($date)
+    public function setDateCroissant($dateCroissant)
     {
-        $this->date = $date;
+        $this->dateCroissant = $dateCroissant;
 
         return $this;
     }
 
     /**
-     * Get date
+     * Get dateCroissant
      *
      * @return \DateTime 
      */
-    public function getDate()
+    public function getDateCroissant()
     {
-        return $this->date;
+        return $this->dateCroissant;
     }
 
     /**
@@ -102,7 +102,7 @@ class history
     /**
      * Set ok
      *
-     * @param boolean $ok
+     * @param integer $ok
      * @return history
      */
     public function setOk($ok)
@@ -115,7 +115,7 @@ class history
     /**
      * Get ok
      *
-     * @return boolean 
+     * @return integer 
      */
     public function getOk()
     {

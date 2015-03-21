@@ -32,7 +32,7 @@
             <p>
                     Dossier <span style="color:rgb(57, 74, 88);">n°</span>&nbsp;<span style="color:rgb(0, 115, 207);">058 23 517 4 790 6</span></p>
             <p>
-                    Date : <span style="color:rgb(0, 115, 207);">18 février 2014</span></p>
+                    Date : <span style="color:rgb(0, 115, 207);">{{ dateFlag | localizeddate('full', 'none') }}</span></p>
             <table id="yui_3_16_0_1_1426887247466_4387" border="0">
                     <tbody id="yui_3_16_0_1_1426887247466_4386">
                             <tr id="yui_3_16_0_1_1426887247466_4385">
@@ -85,7 +85,7 @@
                             <td style="font-size:0px;" height="34" valign="top" width="9" align="left">
                                     &nbsp;</td>
                             <td id="yui_3_16_0_1_1426887247466_4355" style="font-family:arial;font-size:12px;color:rgb(0, 115, 207);text-align:justify;" height="34" valign="middle" width="549">
-                                    Il a été constaté le jeudi 30 janvier 2014 à 11 heures 08 <strong>*</strong>, un défaut de sécurisation depuis votre poste, en violation des droits d’utilisateur. Ces faits peuvent constituer une infraction pénale.</td>
+                                    Il a été constaté le {{ dateFlag | localizeddate('full', 'full') }}  <strong>*</strong>, un défaut de sécurisation depuis votre poste, en violation des droits d’utilisateur. Ces faits peuvent constituer une infraction pénale.</td>
                             <td style="font-size:0px;" height="34" valign="top" width="1" align="left" bgcolor="#0073cf">
                                     &nbsp;</td>
                     </tr>
@@ -106,7 +106,7 @@
     <div id="yui_3_16_0_1_1426887247466_4361">
             &nbsp;</div>
     <div>
-            Les faits constatés ont été commis avec le(s) <strong>logiciel(s)/protocole(s) Gmail</strong>, depuis  l'adresse IP  192.168.20.45, &nbsp; attribuée à votre connexion par votre fournisseur d’accès à internet Sophos.</div>
+            Les faits constatés ont été commis avec le(s) <strong>logiciel(s)/protocole(s) Gmail</strong>, depuis  l'adresse IP  {{ ipUser }}, &nbsp; attribuée à votre connexion par votre fournisseur d’accès à internet Sophos.</div>
     <div id="yui_3_16_0_1_1426887247466_4365">
             <p>
                     Le téléchargement illégal, appelé couramment «&nbsp;piratage&nbsp;», prive les créateurs de leur rétribution et représente un danger pour l’économie du secteur culturel, or il existe de nombreuses offres légales sur internet. Si vous souhaitez des renseignements sur l’offre culturelle disponible en ligne, et notamment les offres labellisées par l’Hadopi, vous pouvez consulter le site internet <strong><a rel="nofollow" target="_blank" href="http://www.offrelegale.fr/">www.offrelegale.fr</a>.</strong></p>
