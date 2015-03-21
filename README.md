@@ -31,7 +31,7 @@ Utilisateur inscrit : Arnaud ?, marie, Nathalie , Yann Nico, Aurelien, Anthony ,
 | Liste utilisateur          |   X  |          |     |
 | Choix Utilisateur          |      |     X    |     |
 | Ajout dans l'historique    |   X  |          |     |
-| Max une fois/3 semaines    |      |          |  X  |
+| Max une fois/3 semaines    |   X  |          |     |
 | Synchro Google             |      |          |  X  |
 | Malus non synchro          |      |          |  X  |
 | Malus pas croissant        |      |          |  X  |
