@@ -3,9 +3,18 @@
 {% block title %}List des utilisateurs{% endblock %}
 
 {% block body %}
-<table><tr><th>ID</th><th>Date</th><th>idUser</th><th>Ok</th></tr>
+<h3>Historique des croissants</h3>
+<table><tr><th>ID</th><th>Date</th><th>idUser</th><th>Etat</th></tr>
      {% for item in historys %}
-                <tr><td>{{ item.id }} </td><td> {{ item.dateCroissant|date('d/m/Y') }}  </td><td> {{ item.idUser }}  </td><td>  {{ item.Ok }}  </td></tr>
+                <tr><td>{{ item.id }} </td><td> {{ item.dateCroissant|date('d/m/Y') }}  </td><td> {{ item.idUser }}  </td><td>  {% if item.ok == 0 %}
+    En attente
+{% elseif item.ok == 1 %}
+    Accepté
+{% elseif item.ok == 2 %}
+    Livré
+{% else %}
+    Non livré
+{% endif %}  </td></tr>
             {% endfor %}
 </table>
 {% endblock %}

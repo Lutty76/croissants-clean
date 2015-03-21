@@ -5,6 +5,10 @@
 {% block body %}
 <h3>Profil de {{user.name }}</h3>
 
+Joker : {{ user.joker }}<br />
+{% if user.premium == 1 %}
+Membre premium<br />
+{% endif %}
 
 
 <p>Historique de croissants :</p>

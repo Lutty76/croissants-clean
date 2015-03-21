@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="perso\CroissantBundle\Entity\userRepository")
  */
-class user 
-{
+class user {
+
     /**
      * @var integer
      *
@@ -47,7 +47,7 @@ class user
      *
      * @ORM\Column(name="joker", type="integer")
      */
-    private $joker=1;
+    private $joker = 1;
 
     /**
      * @var boolean
@@ -61,30 +61,29 @@ class user
      *
      * @ORM\Column(name="selected", type="boolean")
      */
-    private $selected=0;
+    private $selected = 0;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="coefficient", type="integer")
      */
-    private $coefficient=1;
+    private $coefficient = 1;
 
     /**
      * @var string
      *
      * @ORM\Column(name="token", type="string", length=128)
      */
-    private $token='';
-    
+    private $token = '';
+
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
-        return $this->id;
+    public function getId() {
+	return $this->id;
     }
 
     /**
@@ -93,11 +92,10 @@ class user
      * @param string $name
      * @return user
      */
-    public function setName($name)
-    {
-        $this->name = $name;
+    public function setName($name) {
+	$this->name = $name;
 
-        return $this;
+	return $this;
     }
 
     /**
@@ -105,9 +103,8 @@ class user
      *
      * @return string 
      */
-    public function getName()
-    {
-        return $this->name;
+    public function getName() {
+	return $this->name;
     }
 
     /**
@@ -116,11 +113,10 @@ class user
      * @param string $email
      * @return user
      */
-    public function setEmail($email)
-    {
-        $this->email = $email;
+    public function setEmail($email) {
+	$this->email = $email;
 
-        return $this;
+	return $this;
     }
 
     /**
@@ -128,21 +124,20 @@ class user
      *
      * @return string 
      */
-    public function getEmail()
-    {
-        return $this->email;
+    public function getEmail() {
+	return $this->email;
     }
-  /**
+
+    /**
      * Set birthday
      *
      * @param \DateTime  $birthday
      * @return user
      */
-    public function setBirthday($birthday)
-    {
-        $this->birthday = $birthday;
+    public function setBirthday($birthday) {
+	$this->birthday = $birthday;
 
-        return $this;
+	return $this;
     }
 
     /**
@@ -150,21 +145,20 @@ class user
      *
      * @return \DateTime  
      */
-    public function getBirthday()
-    {
-        return $this->birthday;
+    public function getBirthday() {
+	return $this->birthday;
     }
+
     /**
      * Set joker
      *
      * @param integer $joker
      * @return user
      */
-    public function setJoker($joker)
-    {
-        $this->joker = $joker;
+    public function setJoker($joker) {
+	$this->joker = $joker;
 
-        return $this;
+	return $this;
     }
 
     /**
@@ -172,9 +166,8 @@ class user
      *
      * @return integer 
      */
-    public function getJoker()
-    {
-        return $this->joker;
+    public function getJoker() {
+	return $this->joker;
     }
 
     /**
@@ -183,11 +176,10 @@ class user
      * @param boolean $premium
      * @return user
      */
-    public function setPremium($premium)
-    {
-        $this->premium = $premium;
+    public function setPremium($premium) {
+	$this->premium = $premium;
 
-        return $this;
+	return $this;
     }
 
     /**
@@ -195,9 +187,8 @@ class user
      *
      * @return boolean 
      */
-    public function getPremium()
-    {
-        return $this->premium;
+    public function getPremium() {
+	return $this->premium;
     }
 
     /**
@@ -206,11 +197,10 @@ class user
      * @param boolean $selected
      * @return user
      */
-    public function setSelected($selected)
-    {
-        $this->selected = $selected;
+    public function setSelected($selected) {
+	$this->selected = $selected;
 
-        return $this;
+	return $this;
     }
 
     /**
@@ -218,9 +208,8 @@ class user
      *
      * @return boolean 
      */
-    public function getSelected()
-    {
-        return $this->selected;
+    public function getSelected() {
+	return $this->selected;
     }
 
     /**
@@ -229,11 +218,10 @@ class user
      * @param integer $coefficient
      * @return user
      */
-    public function setCoefficient($coefficient)
-    {
-        $this->coefficient = $coefficient;
+    public function setCoefficient($coefficient) {
+	$this->coefficient = $coefficient;
 
-        return $this;
+	return $this;
     }
 
     /**
@@ -241,9 +229,8 @@ class user
      *
      * @return integer 
      */
-    public function getCoefficient()
-    {
-        return $this->coefficient;
+    public function getCoefficient() {
+	return $this->coefficient;
     }
 
     /**
@@ -252,11 +239,10 @@ class user
      * @param string $token
      * @return user
      */
-    public function setToken($token)
-    {
-        $this->token = $token;
+    public function setToken($token) {
+	$this->token = $token;
 
-        return $this;
+	return $this;
     }
 
     /**
@@ -264,8 +250,8 @@ class user
      *
      * @return string 
      */
-    public function getToken()
-    {
-        return $this->token;
+    public function getToken() {
+	return $this->token;
     }
+
 }
