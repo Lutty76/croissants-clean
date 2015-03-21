@@ -93,7 +93,6 @@ display:block;
 }
 #sidebar p {
     
-    padding: 5px 20px ;
     margin-top: 5px;
     margin-bottom: 5px;
 }
@@ -102,8 +101,10 @@ display:block;
     background-color:#F3F3F3;
 }
 #sidebar p a{
+    padding: 5px 20px ;
     color : black;
     text-decoration:none;
+    display:block;
 }
 
 

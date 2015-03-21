@@ -153,7 +153,7 @@ class DefaultController extends Controller {
     public function userProfilAction($id) {
 
 	$user = $this->getDoctrine()->getRepository('persoCroissantBundle:user')->findOneById($id);
-	$history = $this->getDoctrine()->getRepository('persoCroissantBundle:history')->findOneByIdUser($id);
+	$history = $this->getDoctrine()->getRepository('persoCroissantBundle:history')->findByIdUser($id);
 	return $this->render('persoCroissantBundle::profil.html.twig', array('user' => $user, "history" => $history));
     }
 
@@ -262,6 +262,27 @@ class DefaultController extends Controller {
 	$history = $em->getRepository('persoCroissantBundle:history')->findOneByOk(0);
 
 	$history->setOk(1);
+	$em->flush();
+
+	return new Response(json_encode("ok"));
+    }
+
+    /**
+     * @Route("/admin/resetJoker")
+     * @Template()
+     */
+    public function resetJokerAction() {
+	$em = $this->getDoctrine()->getManager();
+	$user = $em->getRepository('persoCroissantBundle:user')->findAll();
+	   
+	foreach($user as $one)
+	{
+	    if($one->getPremium() == 1)
+		$one->setJoker(3);
+	    else
+		$one->setJoker(1);
+		
+	}
 	$em->flush();
 
 	return new Response(json_encode("ok"));

@@ -36,12 +36,13 @@ Utilisateur inscrit : Arnaud ?, marie, Nathalie , Yann Nico, Aurelien, Anthony ,
 | Malus non synchro          |      |          |  X  |
 | Malus pas croissant        |      |          |  X  |
 | Page Joker/Acceptation     |   X  |          |     |
+| Reset Joker                |   X  |          |     |
 | Accepter d'office          |   X  |          |     |
 | Envoi mail                 |   X  |          |     |
 | Securisation               |      |          |  X  |
 | Se proposer                |   X  |          |     |
-| Statistique                |      |          |  X  |
-| Design                     |      |     X    |     |
+| Statistique                |      |     X    |     |
+| Design                     |   X  |          |     |
 | Cas d'erreur               |      |          |  X  |
 
 ## Copyright
