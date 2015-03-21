@@ -1,4 +1,4 @@
-perse_croissant:
+perso_croissant:
     resource: "@persoCroissantBundle/Controller/"
     type:     annotation
     prefix:   /

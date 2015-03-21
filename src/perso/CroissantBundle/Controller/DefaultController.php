@@ -35,7 +35,7 @@ class DefaultController extends Controller
     }
     
     /**
-     * @Route("/addUser")
+     * @Route("/admin/addUser")
      * @Template()
      */
     public function addUserAction(Request $request)
@@ -62,7 +62,7 @@ class DefaultController extends Controller
     } 
     
     /**
-     * @Route("/removeUser/{id}")
+     * @Route("/admin/removeUser/{id}")
      * @Template()
      */ 
     public function removeUserAction($id)
@@ -251,7 +251,7 @@ class DefaultController extends Controller
     }
     
     /**
-     * @Route("/truncateHistory")
+     * @Route("/admin/truncateHistory")
      * @Template()
      */
     public function truncateHistoryAction()

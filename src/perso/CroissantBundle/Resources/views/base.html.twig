@@ -3,14 +3,17 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>{% block title %}Croissants{% endblock %}</title>
+	<link href="{{ asset('bundles/persocroissant/css/style.css') }}" type="text/css" rel="stylesheet" media="all"  />
+
     </head>
     <body>
         <div id="sidebar">
             {% block sidebar %}
-            <ul>
-                <li><a href="/">Mon profil</a></li>
-                <li><a href="/stats">Statistique</a></li>
-            </ul>
+            <p><a href="/">Mon profil</a></p>
+            <p><a href="/stats">Historique</a></p>
+            <p><a href="/stats">Liste user</a></p>
+            <p><a href="/stats">Statistique</a></p>
+           
             {% endblock %}
         </div>
 

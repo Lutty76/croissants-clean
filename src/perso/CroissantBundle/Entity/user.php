@@ -7,10 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * user
  *
- * @ORM\Table()
+ * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="perso\CroissantBundle\Entity\userRepository")
  */
-class user
+class user 
 {
     /**
      * @var integer
@@ -76,8 +76,7 @@ class user
      * @ORM\Column(name="token", type="string", length=128)
      */
     private $token='';
-
-
+    
     /**
      * Get id
      *

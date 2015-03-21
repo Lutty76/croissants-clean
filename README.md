@@ -32,17 +32,17 @@ Utilisateur inscrit : Arnaud ?, marie, Nathalie , Yann Nico, Aurelien, Anthony ,
 | Choix Utilisateur          |      |     X    |     |
 | Ajout dans l'historique    |   X  |          |     |
 | Max une fois/3 semaines    |   X  |          |     |
-| Synchro Google             |      |     X    |     |
+| Synchro Google             |      |          |  X  |
 | Malus non synchro          |      |          |  X  |
 | Malus pas croissant        |      |          |  X  |
 | Page Joker/Acceptation     |   X  |          |     |
 | Accepter d'office          |   X  |          |     |
-| Envoi mail                 |      |     X    |     |
+| Envoi mail                 |   X  |          |     |
 | Securisation               |      |          |  X  |
 | Anniversaire               |      |          |  X  |
 | Anniversaire a venir ?     |      |          |  X  |
 | Statistique                |      |          |  X  |
-| Design                     |      |          |  X  |
+| Design                     |      |     X    |     |
 | Cas d'erreur               |      |          |  X  |
 
 ## Copyright
