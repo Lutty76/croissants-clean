@@ -29,7 +29,7 @@ security:
             security: false
         # the login page has to be accessible for everybody
         user:
-            pattern:  ^/
+            pattern:  ^/(?!admin)
             anonymous: true
             logout: true
             oauth:
