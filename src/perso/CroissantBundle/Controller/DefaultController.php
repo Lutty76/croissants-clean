@@ -130,7 +130,7 @@ class DefaultController extends Controller {
     public function userAskAction($id) {
 
 	$em = $this->getDoctrine()->getManager();   // TODO scale friday to friday
-	$historyCroissant = $em->getRepository('persoCroissantBundle:history')->findAllFromDate(date("Y-m-d H:i:s", strtotime("-1 weeks")))->getResult();
+	$historyCroissant = $em->getRepository('persoCroissantBundle:history')->findAllFromDate(date("Y-m-d H:i:s", strtotime("-1 weeks")));
 	if (sizeof($historyCroissant) == 0) {
 
 	    $history = new \perso\CroissantBundle\Entity\history();
