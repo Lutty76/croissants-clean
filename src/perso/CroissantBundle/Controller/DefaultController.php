@@ -11,6 +11,7 @@ use \DateTime;
 use perso\CroissantBundle\Entity\user;
 use perso\CroissantBundle\Entity\history;
 use perso\CroissantBundle\Form\userType;
+use HWI\Bundle\OAuthBundle;
 
 class DefaultController extends Controller {
 

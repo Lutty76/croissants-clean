@@ -4,11 +4,14 @@ namespace perso\CroissantBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUser;
 /**
  * user
  *
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="perso\CroissantBundle\Entity\userRepository")
+ * @UniqueEntity("username")
+ * @UniqueEntity("email")
  */
 class user {
 
@@ -21,6 +24,27 @@ class user {
      */
     private $id;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="google_id", type="string", length=255, unique=true, nullable=true)
+     */
+    protected $googleId;
+ 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="username", type="string", length=255, unique=true)
+     */
+    protected $username;
+ 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="salt", type="string", length=32)
+     */
+    protected $salt;
+ 
     /**
      * @var string
      *
@@ -85,7 +109,69 @@ class user {
     public function getId() {
 	return $this->id;
     }
-
+    
+    /**
+     * @param string $googleId
+     */
+    public function setGoogleId($googleId)
+    {
+        $this->googleId = $googleId;
+    }
+ 
+    /**
+     * @return string
+     */
+    public function getGoogleId()
+    {
+        return $this->googleId;
+    }
+      
+    /**
+     * Set username
+     *
+     * @param string $username
+     * @return User
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+ 
+        return $this;
+    }
+ 
+    /**
+     * Get username
+     *
+     * @return string
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+ 
+    /**
+     * Set salt
+     *
+     * @param string $salt
+     * @return User
+     */
+    public function setSalt($salt)
+    {
+        $this->salt = $salt;
+ 
+        return $this;
+    }
+ 
+    /**
+     * Get salt
+     *
+     * @return string
+     */
+    public function getSalt()
+    {
+        return $this->salt;
+    }
+ 
     /**
      * Set name
      *
