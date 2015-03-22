@@ -1,6 +1,6 @@
 {% extends 'persoCroissantBundle::base.html.twig' %}
 
-{% block title %}List des utilisateurs{% endblock %}
+{% block title %}Historique des Croissants{% endblock %}
 
 {% block body %}
 <h3>Historique des croissants</h3>
@@ -11,6 +11,8 @@
 {% elseif item.ok == 1 %}
     Accepté
 {% elseif item.ok == 2 %}
+    Refusé
+{% elseif item.ok == 3 %}
     Livré
 {% else %}
     Non livré

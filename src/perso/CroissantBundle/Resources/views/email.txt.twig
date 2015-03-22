@@ -7,11 +7,11 @@
 	
 
 {% if user.joker>1 %}
-	Vous pouvez refusé en utilisant un joker ({{user.joker}} restant) en allant sur ce lien http://127.0.0.1/userDeline/{{ user.token }}
+	Vous pouvez refusé en utilisant un joker ({{user.joker}} restant) en allant sur ce lien {{ url('_decline',{'token': user.token} ) }}
 {% else %}
      Vous n'avez plus de joker disponible ....
 {% endif %}
-    Vous pouvez accepté en allant sur ce lien http://127.0.0.1/userAccept/{{ user.token }}
+    Vous pouvez accepté en allant sur ce lien {{ url('_accept', {'token' : user.token} ) }}
 
     Si vous n'accepté pas, ce sera accepté d'office et un mail sera envoyé a tous le monde à 16H.
 	

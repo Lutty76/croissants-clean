@@ -27,11 +27,20 @@ class DefaultController extends Controller {
      * @Route("/listHistory",name="_historyList")
      * @Template()
      */
+    public function listHistoryPublicAction() {
+	$history = $this->getDoctrine()->getRepository('persoCroissantBundle:history')->findAllPublic();
+	return $this->render('persoCroissantBundle::listHistory.html.twig', array('historys' => $history));
+    }
+
+    /**
+     * @Route("/admin/listHistory")
+     * @Template()
+     */
     public function listHistoryAction() {
 	$history = $this->getDoctrine()->getRepository('persoCroissantBundle:history')->findAll();
 	return $this->render('persoCroissantBundle::listHistory.html.twig', array('historys' => $history));
     }
-
+    
     /**
      * @Route("/stats",name="_stats")
      * @Template()
@@ -89,13 +98,16 @@ class DefaultController extends Controller {
 
 
 	// Verifier si personne ne s'est pas déja proposé
-	$historyCroissant = $em->getRepository('persoCroissantBundle:history')->findAllFromDate( date("Y-m-d H:i:s", strtotime("-1 weeks")));
+	$historyCroissant = $em->getRepository('persoCroissantBundle:history')->findAllFromDateNotRefused( date("Y-m-d 00:00:00", strtotime("-1 weeks")));
+	
 	if (sizeof($historyCroissant) == 0) {
 	   $user =  $this->container->get('perso_croissant.my_user_choser')->getUser($user);
 	   if (sizeof($user)==0)
 	   return $this->render('persoCroissantBundle::notFoundUser.html.twig');
 	} else {
-	    return new Response(json_encode("ok"));
+	    
+	    $user = $em->getRepository('persoCroissantBundle:user')->findOneById($historyCroissant[0]->getIdUser());
+	    return $this->render('persoCroissantBundle::chose.html.twig', array('chosen' => $user));
 	}
 	return $this->render('persoCroissantBundle::chose.html.twig', array('chosen' => $user));
     }
@@ -135,7 +147,7 @@ class DefaultController extends Controller {
     }
 
     /**
-     * @Route("/userAccept/{token}")
+     * @Route("/userAccept/{token}",name="_accept")
      * @Template()
      */
     public function userAcceptAction($token) {
@@ -163,7 +175,7 @@ class DefaultController extends Controller {
     }
 
     /**
-     * @Route("/userDecline/{token}")
+     * @Route("/userDecline/{token}",name="_decline")
      * @Template()
      */
     public function userDeclineAction($token) {

@@ -13,13 +13,23 @@ use Doctrine\ORM\EntityRepository;
 class historyRepository extends EntityRepository {
 
     function findAllFromDate($date) {
-	$historyCroissant = $this->getEntityManager()->createQuery('
+	return $this->getEntityManager()->createQuery('
 	SELECT h FROM persoCroissantBundle:history h
 	WHERE h.dateCroissant >= :date_from')->setParameter('date_from', $date)->getResult();
     }
+    function findAllPublic() {
+	return $this->getEntityManager()->createQuery('
+	SELECT h FROM persoCroissantBundle:history h 
+	WHERE h.ok!=0 AND h.ok!=2')->getResult();
+    }
+    function findAllFromDateNotRefused($date) {
+	return $this->getEntityManager()->createQuery('
+	SELECT h FROM persoCroissantBundle:history h
+	WHERE h.dateCroissant >= :date_from AND h.ok!=2')->setParameter('date_from', $date)->getResult();
+    }
 
     function findAllFromDateAndIdUser($date, $idUser) {
-	$historyUser = $this->getEntityManager()->createQuery('
+	return $this->getEntityManager()->createQuery('
 		    SELECT h FROM persoCroissantBundle:history h
 		    WHERE h.dateCroissant >= :date_from AND h.idUser = :idUser')
 			->setParameter('date_from', $date)->setParameter('idUser', $idUser)->getResult();

@@ -31,8 +31,8 @@ class UserChose {
 	    $user = $this->em->getRepository('persoCroissantBundle:user')->findOneById($arrayCoef[$rand]);
 	    unset($arrayCoef[$rand]);
 	    $arrayCoef = array_values($arrayCoef); //Array_slice will be better 
-	    $historyUser = $this->em->getRepository('persoCroissantBundle:history')->findAllFromDateAndIdUser(date("Y-m-d H:i:s", strtotime("-3 weeks")), $user->getId());
-	 
+	    $historyUser = $this->em->getRepository('persoCroissantBundle:history')->findAllFromDateAndIdUser(date("Y-m-d 00:00:00", strtotime("-3 weeks")), $user->getId());
+	   echo sizeof($historyUser);
 
 	    while (sizeof($historyUser) != 0) {
 		unset($arrayCoef[$rand]);
@@ -42,7 +42,7 @@ class UserChose {
 		    $rand = rand(0, sizeof($arrayCoef) - 1);
 		    $user = $this->em->getRepository('persoCroissantBundle:user')->findOneById($arrayCoef[$rand]);
 
-		    $historyUser = $this->em->getRepository('persoCroissantBundle:history')->findAllFromDateAndIdUser(date("Y-m-d H:i:s", strtotime("-3 weeks")), $user->getId());
+		    $historyUser = $this->em->getRepository('persoCroissantBundle:history')->findAllFromDateAndIdUser(date("Y-m-d 00:00:00", strtotime("-3 weeks")), $user->getId());
 		} else {
 		    return array();
 		}
