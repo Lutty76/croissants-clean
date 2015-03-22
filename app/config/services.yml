@@ -4,6 +4,9 @@ parameters:
 #    parameter_name: value
 
 services:
+     perso_croissant.my_user_choser:
+         class: perso\CroissantBundle\UserChose\UserChose
+         arguments: [ @doctrine.orm.entity_manager , @templating ,@mailer]
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]

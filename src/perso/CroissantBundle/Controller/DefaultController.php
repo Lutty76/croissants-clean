@@ -86,60 +86,14 @@ class DefaultController extends Controller {
     public function selectUserAction() {
 	$em = $this->getDoctrine()->getManager();
 	$user = $em->getRepository('persoCroissantBundle:user')->findAll();
-	$token = uniqid();
-	$arrayCoef = array();
+
 
 	// Verifier si personne ne s'est pas déja proposé
-	$historyCroissant = $em->createQuery('
-	SELECT h FROM persoCroissantBundle:history h
-	WHERE h.dateCroissant >= :date_from')->setParameter('date_from', date("Y-m-d H:i:s", strtotime("-1 weeks")))->getResult();
+	$historyCroissant = $em->getRepository('persoCroissantBundle:history')->findAllFromDate( date("Y-m-d H:i:s", strtotime("-1 weeks")));
 	if (sizeof($historyCroissant) == 0) {
-	    foreach ($user as $one)
-		for ($i = 0; $i < $one->getCoefficient(); $i++)
-		    array_push($arrayCoef, $one->getId());
-
-	    shuffle($arrayCoef);
-	    echo '|' . $token . '|';
-
-	    $rand = rand(0, sizeof($arrayCoef) - 1);
-	    $user = $this->getDoctrine()->getRepository('persoCroissantBundle:user')->findOneById($arrayCoef[$rand]);
-	    unset($arrayCoef[$rand]);
-	    $arrayCoef = array_values($arrayCoef); //Array_slice will be better 
-	    $historyUser = $em->createQuery('
-	    SELECT h FROM persoCroissantBundle:history h
-	    WHERE h.dateCroissant >= :date_from')->setParameter('date_from', date("Y-m-d H:i:s", strtotime("-3 weeks")))->getResult();
-
-
-	    while (sizeof($historyUser) != 0) {
-		unset($arrayCoef[$rand]);
-		$arrayCoef = array_values($arrayCoef); //Array_slice will be better 
-
-		if (sizeof($arrayCoef) > 0) {
-		    $rand = rand(0, sizeof($arrayCoef) - 1);
-		    $user = $this->getDoctrine()->getRepository('persoCroissantBundle:user')->findOneById($arrayCoef[$rand]);
-
-		    $historyUser = $em->createQuery('
-		    SELECT h FROM persoCroissantBundle:history h
-		    WHERE h.dateCroissant >= :date_from AND h.idUser = :idUser')->setParameter('date_from', date("Y-m-d H:i:s", strtotime("-3 weeks")))->setParameter('idUser', $user->getId())->getResult();
-		} else {
-		    return $this->render('persoCroissantBundle::notFoundUser.html.twig');
-		}
-	    }
-	    $user->setToken($token);
-	    $history = new \perso\CroissantBundle\Entity\history();
-	    $history->setIdUser($user->getId());
-	    $history->setDateCroissant(new DateTime(date("Y-M-d")));
-	    $history->setOk(0);
-	    $em->persist($history);
-	    $em->flush();
-
-	    $message = \Swift_Message::newInstance()
-		    ->setSubject('Vous avez été tiré au sort pour les croissants !')
-		    ->setFrom('kevin@creativedata.fr')
-		    ->setTo("kevin@creativedata.fr") //TODO set good email $user->etEmail();
-		    ->setBody($this->renderView('persoCroissantBundle::email.txt.twig', array('user' => $user)))
-		    ->addPart($this->renderView('persoCroissantBundle::email.html.twig', array('user' => $user)), "text/html");
-	    $this->get('mailer')->send($message);
+	   $user =  $this->container->get('perso_croissant.my_user_choser')->getUser($user);
+	   if (sizeof($user)==0)
+	   return $this->render('persoCroissantBundle::notFoundUser.html.twig');
 	} else {
 	    return new Response(json_encode("ok"));
 	}
@@ -163,10 +117,8 @@ class DefaultController extends Controller {
      */
     public function userAskAction($id) {
 
-	$em = $this->getDoctrine()->getManager();
-	$historyCroissant = $em->createQuery('
-	SELECT h FROM persoCroissantBundle:history h
-	WHERE h.dateCroissant >= :date_from')->setParameter('date_from', date("Y-m-d H:i:s", strtotime("-1 weeks")))->getResult();
+	$em = $this->getDoctrine()->getManager();   // TODO scale friday to friday
+	$historyCroissant = $em->getRepository('persoCroissantBundle:history')->findAllFromDate(date("Y-m-d H:i:s", strtotime("-1 weeks")))->getResult();
 	if (sizeof($historyCroissant) == 0) {
 
 	    $history = new \perso\CroissantBundle\Entity\history();
