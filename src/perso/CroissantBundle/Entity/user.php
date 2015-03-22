@@ -10,8 +10,6 @@ use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUser;
  *
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="perso\CroissantBundle\Entity\userRepository")
- * @UniqueEntity("username")
- * @UniqueEntity("email")
  */
 class user {
 
@@ -34,7 +32,7 @@ class user {
     /**
      * @var string
      *
-     * @ORM\Column(name="username", type="string", length=255, unique=true)
+     * @ORM\Column(name="username", type="string", length=255)
      */
     protected $username;
  

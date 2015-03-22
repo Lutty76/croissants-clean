@@ -29,9 +29,10 @@ security:
             security: false
         # the login page has to be accessible for everybody
         user:
-            pattern:  ^/(?!admin)
+            pattern:  ^/
             anonymous: true
             logout: true
+            provider: oauth
             oauth:
                 resource_owners:
                     google:             "/login/check-google"
@@ -59,6 +60,5 @@ security:
     # http://symfony.com/doc/current/cookbook/security/access_control.html
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/, roles: ROLE_USER }
         - { path: ^/admin, roles: ROLE_ADMIN }
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
