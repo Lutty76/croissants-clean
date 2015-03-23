@@ -22,7 +22,7 @@ class DefaultController extends Controller {
      * @Template()
      */
     public function homeAction() {
-	    return $this->redirect($this->generateUrl("_profil",$this->getUser()->getId()));
+	    return $this->redirect($this->generateUrl("_profil",array("id"=>$this->getUser()->getId())));
     }    
     /**
      * @Route("/listUser",name="_userList")
@@ -134,17 +134,17 @@ class DefaultController extends Controller {
     }
 
     /**
-     * @Route("/offer/{id}",name="_offer")
+     * @Route("/offer",name="_offer")
      * @Template()
      */
-    public function userAskAction($id) {
+    public function userAskAction() {
 
 	$em = $this->getDoctrine()->getManager();   // TODO scale friday to friday
 	$historyCroissant = $em->getRepository('persoCroissantBundle:history')->findAllFromDate(date("Y-m-d H:i:s", strtotime("-1 weeks")));
 	if (sizeof($historyCroissant) == 0) {
 
 	    $history = new \perso\CroissantBundle\Entity\history();
-	    $history->setIdUser($id);
+	    $history->setIdUser($this->getUser()->getId());
 	    $history->setDateCroissant(new DateTime(date("Y-M-d")));
 	    $history->setOk(1);
 	    $em->persist($history);
@@ -214,12 +214,12 @@ class DefaultController extends Controller {
     }
 
     /**
-     * @Route("/trapUser/{id}")
+     * @Route("/trap")
      * @Template()
      */
-    public function trapUserAction($id) {
+    public function trapUserAction() {
 	$em = $this->getDoctrine()->getManager();
-	$user = $em->getRepository('persoCroissantBundle:user')->findOneById($id);
+	$user = $em->getRepository('persoCroissantBundle:user')->findOneById($this->getUser()->getId());
 	if ($user->getCoefficient() < 5) {
 	    $user->setCoefficient($user->getCoefficient() + 1);
 	    $em->flush();
