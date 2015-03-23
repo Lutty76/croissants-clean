@@ -31,7 +31,7 @@ class OAuthProvider extends OAuthUserProvider
         if (count($result)) {
             return $result[0];
         } else {
-            return new User();
+            return new user();
         }
     }
  
@@ -40,10 +40,8 @@ class OAuthProvider extends OAuthUserProvider
         //Data from Google response
         $google_id = $response->getUsername(); /* An ID like: 112259658235204980084 */
         $email = $response->getEmail();
-        $avatar = $response->getProfilePicture();
  
       
-	   echo $email;
         //Check if this Google user already exists in our app DB
         $qb = $this->doctrine->getManager()->createQueryBuilder();
         $qb->select('u')
@@ -68,9 +66,11 @@ class OAuthProvider extends OAuthUserProvider
             $em->persist($user);
             $em->flush();
         } else {
+            $em = $this->doctrine->getManager();
             $user = $result; /* return User */
+	    $user->setGoogleId($google_id);
+            $em->flush();
         }
- 
  
         return $this->loadUserByUsername($response->getUsername());
     }

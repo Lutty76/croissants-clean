@@ -15,11 +15,15 @@
 	    <div id="sidebar">
 		{% block sidebar %}
 		    <h3> {{ app.user.username }}</h3>
-		    <p><a href="{{ path('_profil',{ id : 1 }) }}">Mon profil</a></p>
+		    {% if app.user.id is defined %}
+		    <p><a href="{{ path('_profil',{ id : app.user.id }) }}">Mon profil</a></p>
+		    {% endif %}
 		    <p><a href="{{ path('_historyList') }}">Historique</a></p>
 		    <p><a href="{{ path('_userList') }}">Utilisateurs</a></p>
 		    <p><a href="{{ path('_stats') }}">Statistique</a></p>
-		    <p><a href="{{ path('_offer',{ id : 1 }) }}">Donation</a></p>
+		    {% if app.user.id is defined %}
+		    <p><a href="{{ path('_offer',{ id : app.user.id }) }}">Donation</a></p>
+		    {% endif %}
 
 		{% endblock %}
 	    </div>

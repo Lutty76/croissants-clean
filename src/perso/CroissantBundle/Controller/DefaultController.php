@@ -15,6 +15,15 @@ use HWI\Bundle\OAuthBundle;
 
 class DefaultController extends Controller {
 
+    
+
+    /**
+     * @Route("/")
+     * @Template()
+     */
+    public function homeAction() {
+	    return $this->redirect($this->generateUrl("_profil",$this->getUser()->getId()));
+    }    
     /**
      * @Route("/listUser",name="_userList")
      * @Template()
@@ -71,7 +80,7 @@ class DefaultController extends Controller {
 
 	    $request->getSession()->getFlashBag()->add('notice', 'User bien enregistrée.');
 
-	    return $this->redirect($this->generateUrl("listUser"));
+	    return $this->redirect($this->generateUrl("_userList"));
 	}
 	return $this->render('persoCroissantBundle::addUser.html.twig', array('form' => $form->createView()));
     }
@@ -86,7 +95,7 @@ class DefaultController extends Controller {
 
 	$em->remove($user);
 	$em->flush();
-	return $this->redirect($this->generateUrl("listUser"));
+	return $this->redirect($this->generateUrl("_userList"));
     }
 
     /**
