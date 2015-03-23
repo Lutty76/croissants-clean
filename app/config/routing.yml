@@ -10,6 +10,9 @@ perso_croissant:
     resource: "@persoCroissantBundle/Controller/"
     type:     annotation
     prefix:   /
+  
+login_check:
+    path:   /login/check-google
 
 app:
     resource: "@AppBundle/Controller/"

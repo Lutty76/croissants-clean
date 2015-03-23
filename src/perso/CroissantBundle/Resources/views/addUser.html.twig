@@ -12,20 +12,16 @@
     {{ form_errors(form) }}
 
     <div class="input-form">
-      {{ form_label(form.name, "Nom") }}
-      {{ form_widget(form.name) }}
-      <p>{{ form_errors(form.name) }}</p>
+      {{ form_label(form.username, "Nom") }}
+      {{ form_widget(form.username) }}
+      <p>{{ form_errors(form.username) }}</p>
     </div>
     <div class="input-form">
       {{ form_label(form.email, "Email") }}
       {{ form_widget(form.email) }}
       <p>{{ form_errors(form.email) }}</p>
     </div>
-    <div class="input-form">
-      {{ form_label(form.birthday, "Date de Naissance") }}
-      {{ form_widget(form.birthday) }}
-      <p>{{ form_errors(form.birthday) }}</p>
-    </div>
+
     <div class="input-form">
       {{ form_label(form.premium, "Premium") }}
       {{ form_widget(form.premium) }}

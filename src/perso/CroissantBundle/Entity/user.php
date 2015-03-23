@@ -3,15 +3,17 @@
 namespace perso\CroissantBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Security\Core\User\UserInterface;
 use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUser;
+
+//TODO implement userInterface
 /**
  * user
  *
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="perso\CroissantBundle\Entity\userRepository")
  */
-class user {
+class user implements UserInterface{
 
     /**
      * @var integer
@@ -28,42 +30,44 @@ class user {
      * @ORM\Column(name="google_id", type="string", length=255, unique=true, nullable=true)
      */
     protected $googleId;
- 
+
     /**
      * @var string
      *
-     * @ORM\Column(name="username", type="string", length=255)
+     * @ORM\Column(name="username", type="string", length=255, nullable=true)
      */
     protected $username;
- 
+
     /**
      * @var string
      *
-     * @ORM\Column(name="salt", type="string", length=32)
+     * @ORM\Column(name="password", type="string", length=32, nullable=true)
+     */
+    protected $password;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="roles", type="string", length=32, nullable=true)
+     */
+    protected $roles;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="salt", type="string", length=32, nullable=true)
      */
     protected $salt;
- 
+
     /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=64)
      */
-    private $name;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=128)
-     */
     private $email;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="birthday", type="datetime")
-     */
-    private $birthday;
-
+ 
     /**
      * @var integer
      *
@@ -107,89 +111,107 @@ class user {
     public function getId() {
 	return $this->id;
     }
-    
+
     /**
      * @param string $googleId
      */
-    public function setGoogleId($googleId)
-    {
-        $this->googleId = $googleId;
+    public function setGoogleId($googleId) {
+	$this->googleId = $googleId;
     }
- 
+
     /**
      * @return string
      */
-    public function getGoogleId()
-    {
-        return $this->googleId;
+    public function getGoogleId() {
+	return $this->googleId;
     }
-      
+
     /**
      * Set username
      *
      * @param string $username
      * @return User
      */
-    public function setUsername($username)
-    {
-        $this->username = $username;
- 
-        return $this;
-    }
- 
-    /**
-     * Get username
-     *
-     * @return string
-     */
-    public function getUsername()
-    {
-        return $this->username;
-    }
- 
-    /**
-     * Set salt
-     *
-     * @param string $salt
-     * @return User
-     */
-    public function setSalt($salt)
-    {
-        $this->salt = $salt;
- 
-        return $this;
-    }
- 
-    /**
-     * Get salt
-     *
-     * @return string
-     */
-    public function getSalt()
-    {
-        return $this->salt;
-    }
- 
-    /**
-     * Set name
-     *
-     * @param string $name
-     * @return user
-     */
-    public function setName($name) {
-	$this->name = $name;
+    public function setUsername($username) {
+	$this->username = $username;
 
 	return $this;
     }
 
     /**
-     * Get name
+     * Get username
      *
-     * @return string 
+     * @return string
      */
-    public function getName() {
-	return $this->name;
+    public function getUsername() {
+	return $this->username;
     }
+
+    /**
+     * Set password
+     *
+     * @param string $password
+     * @return User
+     */
+    public function setPassword($password) {
+	$this->password = $password;
+
+	return $this;
+    }
+
+    /**
+     * Get password
+     *
+     * @return string
+     */
+    public function getPassword() {
+	return $this->password;
+    }
+
+    /**
+     * Set roles
+     *
+     * @param string $roles
+     * @return user
+     */
+    public function setRoles($roles) {
+	$this->roles = $roles;
+
+	return $this;
+    }
+
+    /**
+     * Get roles
+     *
+     * @return string
+     */
+    public function getRoles() {
+	//return $this->roles;
+	return array('ROLE_USER');
+    }
+
+    /**
+     * Set salt
+     *
+     * @param string $salt
+     * @return user
+     */
+    public function setSalt($salt) {
+	$this->salt = $salt;
+
+	return $this;
+    }
+
+    /**
+     * Get salt
+     *
+     * @return string
+     */
+    public function getSalt() {
+	return $this->salt;
+    }
+
+ 
 
     /**
      * Set email
@@ -212,26 +234,6 @@ class user {
 	return $this->email;
     }
 
-    /**
-     * Set birthday
-     *
-     * @param \DateTime  $birthday
-     * @return user
-     */
-    public function setBirthday($birthday) {
-	$this->birthday = $birthday;
-
-	return $this;
-    }
-
-    /**
-     * Get birthday
-     *
-     * @return \DateTime  
-     */
-    public function getBirthday() {
-	return $this->birthday;
-    }
 
     /**
      * Set joker
@@ -336,6 +338,30 @@ class user {
      */
     public function getToken() {
 	return $this->token;
+    }
+
+    public function eraseCredentials() {
+	
+    }
+
+    public function equals(UserInterface $user) {
+	if (!$user instanceof WebserviceUser) {
+	    return false;
+	}
+
+	if ($this->password !== $user->getPassword()) {
+	    return false;
+	}
+
+	if ($this->getSalt() !== $user->getSalt()) {
+	    return false;
+	}
+
+	if ($this->username !== $user->getUsername()) {
+	    return false;
+	}
+
+	return true;
     }
 
 }

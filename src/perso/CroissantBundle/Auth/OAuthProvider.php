@@ -40,16 +40,10 @@ class OAuthProvider extends OAuthUserProvider
         //Data from Google response
         $google_id = $response->getUsername(); /* An ID like: 112259658235204980084 */
         $email = $response->getEmail();
-        $nickname = $response->getNickname();
-        $realname = $response->getRealName();
         $avatar = $response->getProfilePicture();
  
-        //set data in session
-        $this->session->set('email', $email);
-        $this->session->set('nickname', $nickname);
-        $this->session->set('realname', $realname);
-        $this->session->set('avatar', $avatar);
- 
+      
+	   echo $email;
         //Check if this Google user already exists in our app DB
         $qb = $this->doctrine->getManager()->createQueryBuilder();
         $qb->select('u')
@@ -57,31 +51,26 @@ class OAuthProvider extends OAuthUserProvider
             ->where('u.email = :gid')
             ->setParameter('gid', $email)
             ->setMaxResults(1);
-        $result = $qb->getQuery()->getResult();
+        $result = $qb->getQuery()->getOneOrNullResult();
  
         //add to database if doesn't exists
-        if (!count($result)) {
+        if ($result==null) {
             $user = new user();
             $user->setGoogleId($google_id);
-            $user->setNickname($nickname);
             $user->setEmail($email);
             //$user->setRoles('ROLE_USER');
  
             //Set some wild random pass since its irrelevant, this is Google login
             $factory = $this->container->get('security.encoder_factory');
-            $encoder = $factory->getEncoder($user);
-            $password = $encoder->encodePassword(md5(uniqid()), $user->getSalt());
-            $user->setPassword($password);
+     
  
             $em = $this->doctrine->getManager();
             $em->persist($user);
             $em->flush();
         } else {
-            $user = $result[0]; /* return User */
+            $user = $result; /* return User */
         }
  
-        //set id
-        $this->session->set('id', $user->getId());
  
         return $this->loadUserByUsername($response->getUsername());
     }

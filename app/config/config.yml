@@ -85,7 +85,7 @@ hwi_oauth:
         google:
             type:                google
             client_id:           796927987050-24ek4nhhfp8esadni15vf6lf38gfkqdq.apps.googleusercontent.com
-            client_secret:       796927987050-24ek4nhhfp8esadni15vf6lf38gfkqdq@developer.gserviceaccount.com
+            client_secret:       SQhxneG4TXpQFD_b8CN8mxzf
             scope:               "email"
             options:
                 access_type:       online

@@ -14,6 +14,7 @@
 	<div id="global">
 	    <div id="sidebar">
 		{% block sidebar %}
+		    <h3> {{ app.user.username }}</h3>
 		    <p><a href="{{ path('_profil',{ id : 1 }) }}">Mon profil</a></p>
 		    <p><a href="{{ path('_historyList') }}">Historique</a></p>
 		    <p><a href="{{ path('_userList') }}">Utilisateurs</a></p>
