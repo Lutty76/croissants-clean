@@ -77,3 +77,15 @@ services:
        class: Twig_Extensions_Extension_Intl
        tags:
            - { name: twig.extension }
+
+hwi_oauth:
+    # name of the firewall in which this bundle is active, this setting MUST be set
+    firewall_name: user  
+    resource_owners:
+        google:
+            type:                google
+            client_id:           796927987050-24ek4nhhfp8esadni15vf6lf38gfkqdq.apps.googleusercontent.com
+            client_secret:       SQhxneG4TXpQFD_b8CN8mxzf
+            scope:               "email"
+            options:
+                access_type:       online

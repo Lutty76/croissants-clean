@@ -1,9 +1,9 @@
 {% extends 'persoCroissantBundle::base.html.twig' %}
 
-{% block title %}Profil de {{user.name }}{% endblock %}
+{% block title %}Profil de {{user.username }}{% endblock %}
 
 {% block body %}
-<h3>Profil de {{user.name }}</h3>
+<h3>Profil de {{user.username }}</h3>
 
 Joker : {{ user.joker }}<br />
 {% if user.premium == 1 %}

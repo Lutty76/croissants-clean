@@ -1,0 +1,9 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/book/service_container.html
+parameters:
+#    parameter_name: value
+
+services:
+     perso_croissant.my_user_choser:
+         class: perso\CroissantBundle\UserChose\UserChose
+         arguments: [ @doctrine.orm.entity_manager , @templating ,@mailer]  
