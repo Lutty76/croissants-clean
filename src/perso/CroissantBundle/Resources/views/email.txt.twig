@@ -1,10 +1,4 @@
-<DOCTYPE html>
-<html>
-    <head>
-    </head>
-    <body>
-	<p>{{ user.name }}, vous avez été selectionné pour apporter les croissants demain !</p>
-	
+{{ user.username }}, vous avez été selectionné pour apporter les croissants demain !
 
 {% if user.joker>1 %}
 	Vous pouvez refusé en utilisant un joker ({{user.joker}} restant) en allant sur ce lien {{ url('_decline',{'token': user.token} ) }}
@@ -15,5 +9,3 @@
 
     Si vous n'accepté pas, ce sera accepté d'office et un mail sera envoyé a tous le monde à 16H.
 	
-    </body>
-</html>

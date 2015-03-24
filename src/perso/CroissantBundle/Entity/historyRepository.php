@@ -34,5 +34,8 @@ class historyRepository extends EntityRepository {
 		    WHERE h.dateCroissant >= :date_from AND h.idUser = :idUser')
 			->setParameter('date_from', $date)->setParameter('idUser', $idUser)->getResult();
     }
-
+ function deleteAll() {
+	return $this->getEntityManager()->createQuery('
+	DELETE FROM  persoCroissantBundle:history')->getResult();
+    }
 }

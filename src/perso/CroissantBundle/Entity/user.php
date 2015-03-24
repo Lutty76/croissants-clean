@@ -62,7 +62,7 @@ class user implements UserInterface{
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=64)
+     * @ORM\Column(name="email", type="string", length=64)
      */
 
     private $email;

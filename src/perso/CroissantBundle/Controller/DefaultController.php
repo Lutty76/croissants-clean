@@ -99,7 +99,7 @@ class DefaultController extends Controller {
     }
 
     /**
-     * @Route("/choseUser")
+     * @Route("/admin/choseUser")
      * @Template()
      */
     public function selectUserAction() {
@@ -138,21 +138,34 @@ class DefaultController extends Controller {
      * @Template()
      */
     public function userAskAction() {
-
+			$i=0;
+		$weekDay = date('N');
+		if ($weekDay<=5)
+			$diffDay = 5-$weekDay ;
+		else
+			$diffDay = 5-$weekDay  + 7;
 	$em = $this->getDoctrine()->getManager();   // TODO scale friday to friday
-	$historyCroissant = $em->getRepository('persoCroissantBundle:history')->findAllFromDate(date("Y-m-d H:i:s", strtotime("-1 weeks")));
+	$historyCroissant = $em->getRepository('persoCroissantBundle:history')->findAllFromDate(date("Y-m-d H:i:s", strtotime("+".($i++ -1)." weeks +".$diffDay." days")));
+		
+		while (sizeof($historyCroissant) != 0 )
+		{
+		
+			$historyCroissant = $em->getRepository('persoCroissantBundle:history')->findAllFromDate(date("Y-m-d H:i:s", strtotime("+".($i++ -1)." weeks+".$diffDay." days")));
+			if ($i>10)
+				break;
+		}
 	if (sizeof($historyCroissant) == 0) {
 
 	    $history = new \perso\CroissantBundle\Entity\history();
 	    $history->setIdUser($this->getUser()->getId());
-	    $history->setDateCroissant(new DateTime(date("Y-M-d")));
+	    $history->setDateCroissant(new DateTime(date("Y-M-d",strtotime("+".($i-1)." weeks+".$diffDay." days"))));
 	    $history->setOk(1);
 	    $em->persist($history);
 	    $em->flush();
 
-	    return $this->render('persoCroissantBundle::offer.html.twig', array("msg"=>"Merci pour les croissants ! "));
+	    return $this->render('persoCroissantBundle::offer.html.twig', array("msg"=>"Merci pour les croissants ! Demande enregistré pour le ".date("d/m/Y",strtotime("+".($i-1)." weeks+".$diffDay." days"))));
 	} else {
-	    return $this->render('persoCroissantBundle::offer.html.twig', array("msg"=>"Quelqu'un s'est déjà proposé cette semaine, merci quand même !"));
+	    return $this->render('persoCroissantBundle::offer.html.twig', array("msg"=>"Aucune date disponible !"));
 	}
     }
 
@@ -272,11 +285,11 @@ class DefaultController extends Controller {
 	$user = $em->getRepository('persoCroissantBundle:user')->findOneById($history->getIdUser());
 
 	$message = \Swift_Message::newInstance()
-		->setSubject($user->getName() . ' a été tiré au sort pour les croissants !')
+		->setSubject($user->getUsername() . ' a été tiré au sort pour les croissants !')
 		->setFrom('kevin@creativedata.fr')
-		->setTo("kevin@creativedata.fr") //TODO set good email $user->etEmail();
-		->setBody($user->getName() . " ramènera les croissants demain !")
-		->addPart($user->getName() . " ramènera les croissants demain !");
+		->setTo("all-seineinno@creativedata.fr") //TODO set good email $user->etEmail();
+		->setBody($user->getUsername() . " ramènera les croissants demain !")
+		->addPart($user->getUsername() . " ramènera les croissants demain !");
 	$this->get('mailer')->send($message);
 
 	return new Response(json_encode("ok"));
@@ -288,10 +301,25 @@ class DefaultController extends Controller {
      */
     public function truncateHistoryAction() {
 	$em = $this->getDoctrine()->getManager();
-	$connection = $em->getConnection();
+/*	$connection = $em->getConnection();
 	$platform = $connection->getDatabasePlatform();
 
-	$connection->executeUpdate($platform->getTruncateTableSQL('history', true /* whether to cascade */));
+	$connection->executeUpdate($platform->getTruncateTableSQL('history', true /* whether to cascade ));*/
+	$historyCroissant = $em->getRepository('persoCroissantBundle:history')->deleteAll();
+	return new Response(json_encode("ok"));
+    }
+	
+    /**
+     * @Route("/admin/delHistory")
+     * @Template()
+     */
+    public function delHistoryAction() {
+	$em = $this->getDoctrine()->getManager();
+/*	$connection = $em->getConnection();
+	$platform = $connection->getDatabasePlatform();
+
+	$connection->executeUpdate($platform->getTruncateTableSQL('history', true /* whether to cascade ));*/
+	$historyCroissant = $em->getRepository('persoCroissantBundle:history')->deleteAll();
 	return new Response(json_encode("ok"));
     }
 

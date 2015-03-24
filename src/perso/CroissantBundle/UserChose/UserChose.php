@@ -10,7 +10,7 @@ class UserChose {
     protected $template;
     protected $mailer;
     
-    public function __construct(\Doctrine\ORM\EntityManager $em, \Symfony\Bundle\TwigBundle\Debug\TimedTwigEngine $template, \Swift_Mailer $mailer)
+    public function __construct(\Doctrine\ORM\EntityManager $em, \Symfony\Bundle\TwigBundle\TwigEngine  $template, \Swift_Mailer $mailer)
     {      
         $this->em = $em;
         $this->template = $template;
@@ -58,7 +58,7 @@ class UserChose {
 	    $message = \Swift_Message::newInstance()
 		    ->setSubject('Vous avez été tiré au sort pour les croissants !')
 		    ->setFrom('kevin@creativedata.fr')
-		    ->setTo("kevin@creativedata.fr") //TODO set good email $user->etEmail();
+		    ->setTo($user->getEmail()) //TODO set good email $user->etEmail();
 		    ->setBody($this->template->render('persoCroissantBundle::email.txt.twig', array('user' => $user)))
 		    ->addPart($this->template->render('persoCroissantBundle::email.html.twig', array('user' => $user)), "text/html");
 	    $this->mailer->send($message);

@@ -5,3 +5,99 @@
     Order deny,allow
     Deny from all
 </IfModule>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    
+    # skip "real" requests
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule .* - [QSA,L]
+    
+    # hwi_oauth_service_redirect
+    RewriteCond %{REQUEST_URI} ^/connect/([^/]++)$
+    RewriteRule .* app.php [QSA,L,E=_ROUTING_route:hwi_oauth_service_redirect,E=_ROUTING_param_service:%1,E=_ROUTING_default__controller:HWI\\Bundle\\OAuthBundle\\Controller\\ConnectController\:\:redirectToServiceAction]
+    
+    # hwi_oauth_connect
+    RewriteCond %{REQUEST_URI} ^/login$
+    RewriteRule .* $0/ [QSA,L,R=301]
+    RewriteCond %{REQUEST_URI} ^/login/$
+    RewriteRule .* app.php [QSA,L,E=_ROUTING_route:hwi_oauth_connect,E=_ROUTING_default__controller:HWI\\Bundle\\OAuthBundle\\Controller\\ConnectController\:\:connectAction]
+    
+    # perso_croissant_default_home
+    RewriteCond %{REQUEST_URI} ^/$
+    RewriteRule .* app.php [QSA,L,E=_ROUTING_route:perso_croissant_default_home,E=_ROUTING_default__controller:perso\\CroissantBundle\\Controller\\DefaultController\:\:homeAction]
+    
+    # _userList
+    RewriteCond %{REQUEST_URI} ^/listUser$
+    RewriteRule .* app.php [QSA,L,E=_ROUTING_route:_userList,E=_ROUTING_default__controller:perso\\CroissantBundle\\Controller\\DefaultController\:\:listUserAction]
+    
+    # _historyList
+    RewriteCond %{REQUEST_URI} ^/listHistory$
+    RewriteRule .* app.php [QSA,L,E=_ROUTING_route:_historyList,E=_ROUTING_default__controller:perso\\CroissantBundle\\Controller\\DefaultController\:\:listHistoryPublicAction]
+    
+    # perso_croissant_default_listhistory
+    RewriteCond %{REQUEST_URI} ^/admin/listHistory$
+    RewriteRule .* app.php [QSA,L,E=_ROUTING_route:perso_croissant_default_listhistory,E=_ROUTING_default__controller:perso\\CroissantBundle\\Controller\\DefaultController\:\:listHistoryAction]
+    
+    # _stats
+    RewriteCond %{REQUEST_URI} ^/stats$
+    RewriteRule .* app.php [QSA,L,E=_ROUTING_route:_stats,E=_ROUTING_default__controller:perso\\CroissantBundle\\Controller\\DefaultController\:\:statistiqueAction]
+    
+    # perso_croissant_default_adduser
+    RewriteCond %{REQUEST_URI} ^/admin/addUser$
+    RewriteRule .* app.php [QSA,L,E=_ROUTING_route:perso_croissant_default_adduser,E=_ROUTING_default__controller:perso\\CroissantBundle\\Controller\\DefaultController\:\:addUserAction]
+    
+    # perso_croissant_default_removeuser
+    RewriteCond %{REQUEST_URI} ^/admin/removeUser/([^/]++)$
+    RewriteRule .* app.php [QSA,L,E=_ROUTING_route:perso_croissant_default_removeuser,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:perso\\CroissantBundle\\Controller\\DefaultController\:\:removeUserAction]
+    
+    # perso_croissant_default_selectuser
+    RewriteCond %{REQUEST_URI} ^/choseUser$
+    RewriteRule .* app.php [QSA,L,E=_ROUTING_route:perso_croissant_default_selectuser,E=_ROUTING_default__controller:perso\\CroissantBundle\\Controller\\DefaultController\:\:selectUserAction]
+    
+    # _profil
+    RewriteCond %{REQUEST_URI} ^/profil/([^/]++)$
+    RewriteRule .* app.php [QSA,L,E=_ROUTING_route:_profil,E=_ROUTING_param_id:%1,E=_ROUTING_default__controller:perso\\CroissantBundle\\Controller\\DefaultController\:\:userProfilAction]
+    
+    # _offer
+    RewriteCond %{REQUEST_URI} ^/offer$
+    RewriteRule .* app.php [QSA,L,E=_ROUTING_route:_offer,E=_ROUTING_default__controller:perso\\CroissantBundle\\Controller\\DefaultController\:\:userAskAction]
+    
+    # _accept
+    RewriteCond %{REQUEST_URI} ^/userAccept/([^/]++)$
+    RewriteRule .* app.php [QSA,L,E=_ROUTING_route:_accept,E=_ROUTING_param_token:%1,E=_ROUTING_default__controller:perso\\CroissantBundle\\Controller\\DefaultController\:\:userAcceptAction]
+    
+    # _decline
+    RewriteCond %{REQUEST_URI} ^/userDecline/([^/]++)$
+    RewriteRule .* app.php [QSA,L,E=_ROUTING_route:_decline,E=_ROUTING_param_token:%1,E=_ROUTING_default__controller:perso\\CroissantBundle\\Controller\\DefaultController\:\:userDeclineAction]
+    
+    # perso_croissant_default_trapuser
+    RewriteCond %{REQUEST_URI} ^/trap$
+    RewriteRule .* app.php [QSA,L,E=_ROUTING_route:perso_croissant_default_trapuser,E=_ROUTING_default__controller:perso\\CroissantBundle\\Controller\\DefaultController\:\:trapUserAction]
+    
+    # perso_croissant_default_forceaccept
+    RewriteCond %{REQUEST_URI} ^/forceAccept$
+    RewriteRule .* app.php [QSA,L,E=_ROUTING_route:perso_croissant_default_forceaccept,E=_ROUTING_default__controller:perso\\CroissantBundle\\Controller\\DefaultController\:\:forceAcceptAction]
+    
+    # perso_croissant_default_resetjoker
+    RewriteCond %{REQUEST_URI} ^/admin/resetJoker$
+    RewriteRule .* app.php [QSA,L,E=_ROUTING_route:perso_croissant_default_resetjoker,E=_ROUTING_default__controller:perso\\CroissantBundle\\Controller\\DefaultController\:\:resetJokerAction]
+    
+    # perso_croissant_default_sendemail
+    RewriteCond %{REQUEST_URI} ^/sendEmail$
+    RewriteRule .* app.php [QSA,L,E=_ROUTING_route:perso_croissant_default_sendemail,E=_ROUTING_default__controller:perso\\CroissantBundle\\Controller\\DefaultController\:\:sendEmailAction]
+    
+    # perso_croissant_default_truncatehistory
+    RewriteCond %{REQUEST_URI} ^/admin/truncateHistory$
+    RewriteRule .* app.php [QSA,L,E=_ROUTING_route:perso_croissant_default_truncatehistory,E=_ROUTING_default__controller:perso\\CroissantBundle\\Controller\\DefaultController\:\:truncateHistoryAction]
+    
+    # login_check
+    RewriteCond %{REQUEST_URI} ^/login/check\-google$
+    RewriteRule .* app.php [QSA,L,E=_ROUTING_route:login_check]
+    
+    # homepage
+    RewriteCond %{REQUEST_URI} ^/app/example$
+    RewriteRule .* app.php [QSA,L,E=_ROUTING_route:homepage,E=_ROUTING_default__controller:AppBundle\\Controller\\DefaultController\:\:indexAction]
+    
+    </IfModule>

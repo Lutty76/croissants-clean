@@ -13,6 +13,9 @@ perso_croissant:
   
 login_check:
     path:   /login/check-google
+  
+logout:
+    path:   /logout
 
 app:
     resource: "@AppBundle/Controller/"
