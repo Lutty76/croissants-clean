@@ -5,19 +5,23 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/var/www/croissant/src/perso/CroissantBundle/Controller/DefaultController.php</file>
+            <file>file:/var/www/croissant/src/.htaccess</file>
             <file>file:/var/www/croissant/app/config/routing.yml</file>
             <file>file:/var/www/croissant/src/perso/CroissantBundle/Entity/history.php</file>
             <file>file:/var/www/croissant/src/perso/CroissantBundle/Resources/views/stats.html.twig</file>
             <file>file:/var/www/croissant/app/config/services.yml</file>
             <file>file:/var/www/croissant/composer.json</file>
+            <file>file:/var/www/croissant/src/perso/CroissantBundle/Resources/config/services.yml</file>
             <file>file:/var/www/croissant/src/perso/CroissantBundle/DependencyInjection/persoCroissantExtension.php</file>
             <file>file:/var/www/croissant/vendor/hwi/oauth-bundle/HWI/Bundle/OAuthBundle/Resources/config/routing/connect.xml</file>
             <file>file:/var/www/croissant/app/AppKernel.php</file>
             <file>file:/var/www/croissant/src/perso/CroissantBundle/UserChose/UserChose.php</file>
             <file>file:/var/www/croissant/src/perso/CroissantBundle/Resources/views/email.txt.twig</file>
+            <file>file:/var/www/croissant/app/config/config_prod.yml</file>
             <file>file:/var/www/croissant/src/perso/CroissantBundle/Entity/historyRepository.php</file>
             <file>file:/var/www/croissant/web/app_dev.php</file>
             <file>file:/var/www/croissant/src/perso/CroissantBundle/Resources/public/css/style.css</file>
+            <file>file:/var/www/croissant/app/config/routing_dev.yml</file>
             <file>file:/var/www/croissant/app/config/security.yml</file>
             <file>file:/var/www/croissant/app/config/config.yml</file>
             <file>file:/var/www/croissant/src/perso/CroissantBundle/Resources/views/addUser.html.twig</file>
