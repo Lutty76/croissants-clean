@@ -21,9 +21,7 @@
 		    <p><a href="{{ path('_historyList') }}">Historique</a></p>
 		    <p><a href="{{ path('_userList') }}">Utilisateurs</a></p>
 		    <p><a href="{{ path('_stats') }}">Statistique</a></p>
-		    {% if app.user.id is defined %}
-		    <p><a href="{{ path('_offer',{ id : app.user.id }) }}">Donation</a></p>
-		    {% endif %}
+		  
 
 		{% endblock %}
 	    </div>
