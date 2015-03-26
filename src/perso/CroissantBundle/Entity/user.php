@@ -104,6 +104,13 @@ class user implements UserInterface{
     private $token = '';
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="lastTrap", type="datetime", nullable=true)
+     */
+    private $lastTrap;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -340,6 +347,29 @@ class user implements UserInterface{
 	return $this->token;
     }
 
+	
+
+    /**
+     * Set lastTrap
+     *
+     * @param \DateTime  $lastTrap
+     * @return user
+     */
+    public function setLastTrap($lastTrap) {
+	$this->lastTrap = $lastTrap;
+
+	return $this;
+    }
+
+    /**
+     * Get lastTrap
+     *
+     * @return \DateTime  
+     */
+    public function getLastTrap() {
+	return $this->lastTrap;
+    }
+	
     public function eraseCredentials() {
 	
     }

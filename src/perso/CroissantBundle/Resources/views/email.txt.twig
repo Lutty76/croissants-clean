@@ -1,6 +1,6 @@
 {{ user.username }}, vous avez été selectionné pour apporter les croissants demain !
 
-{% if user.joker>1 %}
+{% if user.joker>0 %}
 	Vous pouvez refusé en utilisant un joker ({{user.joker}} restant) en allant sur ce lien {{ url('_decline',{'token': user.token} ) }}
 {% else %}
      Vous n'avez plus de joker disponible ....

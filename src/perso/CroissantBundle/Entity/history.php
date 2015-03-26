@@ -40,7 +40,7 @@ class history
      *
      * @ORM\Column(name="ok", type="integer")
      */
-    private $ok;
+    private $ok = 1;
 
 
     /**

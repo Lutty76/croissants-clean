@@ -18,9 +18,10 @@
 		    {% if app.user.id is defined %}
 		    <p><a href="{{ path('_profil',{ id : app.user.id }) }}">Mon profil</a></p>
 		    {% endif %}
-		    <p><a href="{{ path('_historyList') }}">Historique</a></p>
+		    <p><a href="{{ path('_historyList') }}">Suivi</a></p>
 		    <p><a href="{{ path('_userList') }}">Utilisateurs</a></p>
 		    <p><a href="{{ path('_stats') }}">Statistique</a></p>
+		    <p><a href="{{ path('_offer') }}">Proposer</a></p>
 		  
 
 		{% endblock %}
