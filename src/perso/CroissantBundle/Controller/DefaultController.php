@@ -69,7 +69,7 @@ class DefaultController extends Controller {
 	$user = $this->getDoctrine()->getRepository('persoCroissantBundle:user')->findAll();
         $data = array();
         foreach($user as $one)
-          $data[$one->getName()]=$one->getCoefficient();
+          array_push($data,array($one->getUsername(),$one->getCoefficient()));
         
 	return new Response(json_encode($data));
     }
@@ -79,13 +79,13 @@ class DefaultController extends Controller {
      */
     public function statChosenAction() {
 	$history = $this->getDoctrine()->getRepository('persoCroissantBundle:history')->findAllToDate(date("Y-m-d 00:00:00"));
-        $data = array();
+        $data = array(); //ugly
         foreach($history as $one)
-          if (key_exists($one->getIdUser(), $data))
-            $data[$one->getIdUser()]= $data[$one->getIdUser()]+1; 
+          if (key_exists($one->getUser()->getUsername(), $data))
+            $data[$one->getUser()->getUsername()]=array($one->getUser()->getUsername(),$data[$one->getUser()->getUsername()][1]+1); 
           else
-            $data[$one->getIdUser()]=0;
-        
+            $data[$one->getUser()->getUsername()]=array($one->getUser()->getUsername(),1);
+        $data = array_values($data);
 	return new Response(json_encode($data));
     }
     /**

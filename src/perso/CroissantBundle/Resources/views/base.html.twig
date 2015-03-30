@@ -4,7 +4,9 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>{% block title %}Croissants{% endblock %}</title>
 	<link href="{{ asset('bundles/persocroissant/css/style.css') }}" type="text/css" rel="stylesheet" media="all"  />
-
+        <script src="{{ asset('bundles/persocroissant/js/jquery-2.1.3.min.js') }}" ></script>
+        <script src="{{ asset('bundles/persocroissant/js/highcharts.js') }}" ></script>
+        <script src="{{ asset('bundles/persocroissant/js/script.js') }}" ></script>
     </head>
     <body>
 	<div id="header">
@@ -20,7 +22,7 @@
 		    {% endif %}
 		    <p><a href="{{ path('_historyList') }}">Suivi</a></p>
 		    <p><a href="{{ path('_userList') }}">Utilisateurs</a></p>
-		    <p><a href="{{ path('_stats') }}">Statistique</a></p>
+		    <p><a href="{{ path('_stats') }}">Statistiques</a></p>
 		    <p><a href="{{ path('_offer') }}">Proposer</a></p>
 		  
 

@@ -32,11 +32,14 @@ class history
      * @var integer
      *
      * @ORM\Column(name="idUser", type="integer")
-     * @ORM\ManyToOne(targetEntity="user", inversedBy="historys")
-     * @ORM\JoinColumn(name="id", referencedColumnName="idUser")
      */
     private $idUser;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="user", inversedBy="historys")
+     * @ORM\JoinColumn(name="idUser", referencedColumnName="id")
+     */
+    private $user;
     /**
      * @var integer
      *
@@ -122,5 +125,28 @@ class history
     public function getOk()
     {
         return $this->ok;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \perso\CroissantBundle\Entity\user $user
+     * @return history
+     */
+    public function setUser(\perso\CroissantBundle\Entity\user $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \perso\CroissantBundle\Entity\user 
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }
