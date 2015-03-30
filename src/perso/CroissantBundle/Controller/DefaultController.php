@@ -62,6 +62,33 @@ class DefaultController extends Controller {
     }
     
     /**
+     * @Route("/statsToChose")
+     * @Template()
+     */
+    public function statToChoseAction() {
+	$user = $this->getDoctrine()->getRepository('persoCroissantBundle:user')->findAll();
+        $data = array();
+        foreach($user as $one)
+          $data[$one->getName()]=$one->getCoefficient();
+        
+	return new Response(json_encode($data));
+    }
+    /**
+     * @Route("/statsChosen")
+     * @Template()
+     */
+    public function statChosenAction() {
+	$history = $this->getDoctrine()->getRepository('persoCroissantBundle:history')->findAllToDate(date("Y-m-d 00:00:00"));
+        $data = array();
+        foreach($history as $one)
+          if (key_exists($one->getIdUser(), $data))
+            $data[$one->getIdUser()]= $data[$one->getIdUser()]+1; 
+          else
+            $data[$one->getIdUser()]=0;
+        
+	return new Response(json_encode($data));
+    }
+    /**
      * @Route("/admin/addUser")
      * @Template()
      */

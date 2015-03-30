@@ -32,6 +32,8 @@ class history
      * @var integer
      *
      * @ORM\Column(name="idUser", type="integer")
+     * @ORM\ManyToOne(targetEntity="user", inversedBy="historys")
+     * @ORM\JoinColumn(name="id", referencedColumnName="idUser")
      */
     private $idUser;
 
