@@ -260,6 +260,22 @@ class DefaultController extends Controller {
      * @Template()
      */
     public function trapUserAction() {
+	 $form = $this->createFormBuilder()
+            ->add('test', 'checkbox', array('data' => true))
+            ->add('save', 'submit')
+            ->getForm();
+	print_r($form->isValid());
+    if (isset($_POST['form'])) {
+	return $this->redirect($this->generateUrl("_trapped"));
+    }
+    return $this->render('persoCroissantBundle::trapForm.html.twig',array("form"=> $form->createView()));
+  
+    }
+    /**
+     * @Route("/trapped",name="_trapped")
+     * @Template()
+     */
+    public function trappedUserAction() {
 	$em = $this->getDoctrine()->getManager();
 	$user = $em->getRepository('persoCroissantBundle:user')->findOneById($this->getUser()->getId());
 		
@@ -270,7 +286,6 @@ class DefaultController extends Controller {
 	}
 	return $this->render('persoCroissantBundle::trapUser.html.twig', array('user' => $user, 'dateFlag' => new DateTime(), "ipUser" => $_SERVER['REMOTE_ADDR']));
     }
-
     /**
      * @Route("/forceAccept")
      * @Template()

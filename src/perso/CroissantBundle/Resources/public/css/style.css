@@ -131,3 +131,9 @@ display:block;
     padding:5px;
     
 }
+.hidden{
+    width:0px;
+    height:0px;
+    display:none;
+    
+}
