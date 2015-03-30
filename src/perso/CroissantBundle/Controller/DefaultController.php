@@ -39,7 +39,7 @@ class DefaultController extends Controller {
      * @Template()
      */
     public function listHistoryPublicAction() {
-	$history = $this->getDoctrine()->getRepository('persoCroissantBundle:history')->findAllPublic();
+	$history = $this->getDoctrine()->getRepository('persoCroissantBundle:history')->findAllPublicFromDate(date("Y-m-d 00:00:00",strtotime("-1 day")));
 	return $this->render('persoCroissantBundle::listHistory.html.twig', array('historys' => $history));
     }
 

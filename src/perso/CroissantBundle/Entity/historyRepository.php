@@ -27,6 +27,11 @@ class historyRepository extends EntityRepository {
 	SELECT h FROM persoCroissantBundle:history h 
 	WHERE h.ok!=0 AND h.ok!=2')->getResult();
     }
+    function findAllPublicFromDate($date) {
+	return $this->getEntityManager()->createQuery('
+	SELECT h FROM persoCroissantBundle:history h 
+	WHERE h.ok!=0 AND h.ok!=2 AND h.dateCroissant >= :date_from')->setParameter('date_from', $date)->getResult();
+    }
     function findAllFromDateNotRefused($date) {
 	return $this->getEntityManager()->createQuery('
 	SELECT h FROM persoCroissantBundle:history h
