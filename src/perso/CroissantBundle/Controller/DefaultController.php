@@ -173,7 +173,7 @@ class DefaultController extends Controller {
 
 	if ($form->isValid()) {
 	    $em = $this->getDoctrine()->getManager();
-	   
+		$history->setUser($this->getUser());
 		$history->setIdUser($this->getUser()->getId());
 		$history->setOk(1);
 	    $em->persist($history);
@@ -256,7 +256,7 @@ class DefaultController extends Controller {
     }
 
     /**
-     * @Route("/trap")
+     * @Route("/trap",name="_trap")
      * @Template()
      */
     public function trapUserAction() {
@@ -264,7 +264,7 @@ class DefaultController extends Controller {
             ->add('test', 'checkbox', array('data' => true))
             ->add('save', 'submit')
             ->getForm();
-	print_r($form->isValid());
+	 
     if (isset($_POST['form'])) {
 	$em = $this->getDoctrine()->getManager();
 	$user = $em->getRepository('persoCroissantBundle:user')->findOneById($this->getUser()->getId());

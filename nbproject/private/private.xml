@@ -8,11 +8,11 @@
             <file>file:/var/www/croissant/src/.htaccess</file>
             <file>file:/var/www/croissant/app/config/routing.yml</file>
             <file>file:/var/www/croissant/src/perso/CroissantBundle/Entity/history.php</file>
-            <file>file:/var/www/croissant/src/perso/CroissantBundle/Resources/views/stats.html.twig</file>
             <file>file:/var/www/croissant/app/config/services.yml</file>
+            <file>file:/var/www/croissant/src/perso/CroissantBundle/Resources/views/stats.html.twig</file>
             <file>file:/var/www/croissant/composer.json</file>
-            <file>file:/var/www/croissant/src/perso/CroissantBundle/Resources/config/services.yml</file>
             <file>file:/var/www/croissant/src/perso/CroissantBundle/DependencyInjection/persoCroissantExtension.php</file>
+            <file>file:/var/www/croissant/src/perso/CroissantBundle/Resources/config/services.yml</file>
             <file>file:/var/www/croissant/vendor/hwi/oauth-bundle/HWI/Bundle/OAuthBundle/Resources/config/routing/connect.xml</file>
             <file>file:/var/www/croissant/app/AppKernel.php</file>
             <file>file:/var/www/croissant/src/perso/CroissantBundle/UserChose/UserChose.php</file>
@@ -22,17 +22,20 @@
             <file>file:/var/www/croissant/web/app_dev.php</file>
             <file>file:/var/www/croissant/src/perso/CroissantBundle/Resources/public/css/style.css</file>
             <file>file:/var/www/croissant/app/config/routing_dev.yml</file>
+            <file>file:/var/www/croissant/src/perso/CroissantBundle/Form/historyType.php</file>
+            <file>file:/var/www/croissant/src/perso/CroissantBundle/Resources/views/trapForm.html.twig</file>
             <file>file:/var/www/croissant/app/config/security.yml</file>
             <file>file:/var/www/croissant/app/config/config.yml</file>
+            <file>file:/var/www/croissant/src/perso/CroissantBundle/Resources/public/js/script.js</file>
             <file>file:/var/www/croissant/src/perso/CroissantBundle/Resources/views/addUser.html.twig</file>
             <file>file:/var/www/croissant/app/config/config_dev.yml</file>
             <file>file:/var/www/croissant/vendor/hwi/oauth-bundle/HWI/Bundle/OAuthBundle/Resources/views/Connect/registration_success.html.twig</file>
             <file>file:/var/www/croissant/src/perso/CroissantBundle/Entity/userRepository.php</file>
             <file>file:/var/www/croissant/vendor/hwi/oauth-bundle/HWI/Bundle/OAuthBundle/Resources/views/Connect/registration.html.twig</file>
-            <file>file:/var/www/croissant/src/perso/CroissantBundle/Resources/views/listUser.html.twig</file>
             <file>file:/var/www/croissant/src/perso/CroissantBundle/Resources/views/chose.html.twig</file>
-            <file>file:/var/www/croissant/vendor/hwi/oauth-bundle/HWI/Bundle/OAuthBundle/Resources/config/templating.xml</file>
+            <file>file:/var/www/croissant/src/perso/CroissantBundle/Resources/views/listUser.html.twig</file>
             <file>file:/var/www/croissant/src/perso/CroissantBundle/Resources/views/listHistory.html.twig</file>
+            <file>file:/var/www/croissant/vendor/hwi/oauth-bundle/HWI/Bundle/OAuthBundle/Resources/config/templating.xml</file>
             <file>file:/var/www/croissant/vendor/hwi/oauth-bundle/HWI/Bundle/OAuthBundle/Resources/views/Connect/login.html.twig</file>
             <file>file:/var/www/croissant/src/perso/CroissantBundle/Resources/views/base.html.twig</file>
             <file>file:/var/www/croissant/README.md</file>

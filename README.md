@@ -41,7 +41,7 @@ Utilisateur inscrit : Arnaud ?, marie, Nathalie , Yann Nico, Aurelien, Anthony ,
 | Envoi mail                 |   X  |          |     |
 | Securisation               |   X  |          |     |
 | Se proposer                |   X  |          |     |
-| Statistique                |      |     X    |     |
+| Statistique                |   X  |          |     |
 | Design                     |   X  |          |     |
 | Cas d'erreur               |      |          |  X  |
 
