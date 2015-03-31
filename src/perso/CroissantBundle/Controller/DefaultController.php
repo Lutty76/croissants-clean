@@ -266,6 +266,13 @@ class DefaultController extends Controller {
             ->getForm();
 	print_r($form->isValid());
     if (isset($_POST['form'])) {
+	$em = $this->getDoctrine()->getManager();
+	$user = $em->getRepository('persoCroissantBundle:user')->findOneById($this->getUser()->getId());
+        if ($user->getCoefficient() < 5 && ($user->getLastTrap()<new DateTime(date("Y-m-d H:i:s",strtotime("-1 hour"))))) {
+	    $user->setCoefficient($user->getCoefficient() + 1);
+	    $user->setlastTrap(new DateTime(date("Y-m-d H:i:s")));
+	    $em->flush();
+	}
 	return $this->redirect($this->generateUrl("_trapped"));
     }
     return $this->render('persoCroissantBundle::trapForm.html.twig',array("form"=> $form->createView()));
@@ -276,14 +283,8 @@ class DefaultController extends Controller {
      * @Template()
      */
     public function trappedUserAction() {
-	$em = $this->getDoctrine()->getManager();
-	$user = $em->getRepository('persoCroissantBundle:user')->findOneById($this->getUser()->getId());
 		
-	if ($user->getCoefficient() < 5 && ($user->getLastTrap()<new DateTime(date("Y-m-d H:i:s",strtotime("-1 hour"))))) {
-	    $user->setCoefficient($user->getCoefficient() + 1);
-	    $user->setlastTrap(new DateTime(date("Y-m-d H:i:s")));
-	    $em->flush();
-	}
+	
 	return $this->render('persoCroissantBundle::trapUser.html.twig', array('user' => $user, 'dateFlag' => new DateTime(), "ipUser" => $_SERVER['REMOTE_ADDR']));
     }
     /**
