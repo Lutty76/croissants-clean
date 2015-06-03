@@ -32,17 +32,22 @@ class historyRepository extends EntityRepository {
 	SELECT h FROM persoCroissantBundle:history h 
 	WHERE h.ok!=0 AND h.ok!=2 AND h.dateCroissant >= :date_from')->setParameter('date_from', $date)->getResult();
     }
-    function findAllFromDateNotRefused($date) {
+    function findAllFromDateNotRefused($datedeb,$datefin) {
 	return $this->getEntityManager()->createQuery('
 	SELECT h FROM persoCroissantBundle:history h
-	WHERE h.dateCroissant >= :date_from AND h.ok!=2')->setParameter('date_from', $date)->getResult();
+	WHERE h.dateCroissant >= :date_from AND  h.dateCroissant <= :date_to AND h.ok!=2')->setParameter('date_from', $datedeb)->setParameter('date_to', $datefin)->getResult();
     }
 
-    function findAllFromDateAndIdUser($date, $idUser) {
+    function findAllToDateAccepted($date) {
+	return $this->getEntityManager()->createQuery('
+	SELECT h FROM persoCroissantBundle:history h
+	WHERE  h.dateCroissant <= :date_to AND (h.ok=1 OR h.ok =3)')->setParameter('date_to', $date)->getResult();
+    }
+    function findAllFromDateAndIdUser($date_from,$date_to, $idUser) {
 	return $this->getEntityManager()->createQuery('
 		    SELECT h FROM persoCroissantBundle:history h
-		    WHERE h.dateCroissant >= :date_from AND h.idUser = :idUser')
-			->setParameter('date_from', $date)->setParameter('idUser', $idUser)->getResult();
+		    WHERE h.dateCroissant >= :date_from AND h.dateCroissant <= :date_to AND  h.idUser = :idUser')
+			->setParameter('date_from', $date_from)->setParameter('date_to', $date_to)->setParameter('idUser', $idUser)->getResult();
     }
  function deleteAll() {
 	return $this->getEntityManager()->createQuery('
