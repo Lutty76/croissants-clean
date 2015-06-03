@@ -1,5 +1,4 @@
 <?php
-
 namespace perso\CroissantBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -31,6 +30,7 @@ class DefaultController extends Controller {
      */
     public function listUserAction() {
 	$user = $this->getDoctrine()->getRepository('persoCroissantBundle:user')->findAll();
+       //print_r($user);
 	return $this->render('persoCroissantBundle::listUser.html.twig', array('users' => $user));
     }
 
@@ -78,7 +78,7 @@ class DefaultController extends Controller {
      * @Template()
      */
     public function statChosenAction() {
-	$history = $this->getDoctrine()->getRepository('persoCroissantBundle:history')->findAllToDate(date("Y-m-d 00:00:00"));
+	$history = $this->getDoctrine()->getRepository('persoCroissantBundle:history')->findAllToDateAccepted(date("Y-m-d 00:00:00"));
         $data = array(); //ugly
         foreach($history as $one)
           if (key_exists($one->getUser()->getUsername(), $data))
@@ -136,7 +136,7 @@ class DefaultController extends Controller {
 
 
 	// Verifier si personne ne s'est pas déja proposé
-	$historyCroissant = $em->getRepository('persoCroissantBundle:history')->findAllFromDateNotRefused( date("Y-m-d 00:00:00", strtotime("-1 weeks")));
+	$historyCroissant = $em->getRepository('persoCroissantBundle:history')->findAllFromDateNotRefused( date("Y-m-d 00:00:00", strtotime("-5 days")), date("Y-m-d 00:00:00", strtotime("+2 days")));
 	
 	if (sizeof($historyCroissant) == 0) {
 	   $user =  $this->container->get('perso_croissant.my_user_choser')->getUser($user);
@@ -207,14 +207,9 @@ class DefaultController extends Controller {
 	$history->setOk(1);
 	$em->flush();
 
-	if ($user->getCoefficient() > 2) {
-	    $user->setCoefficient($user->getCoefficient() -2);
-	    $em->flush();
-	}
-		else{
-	    $user->setCoefficient(1);
-	    $em->flush();
-	}
+        $user->setCoefficient(1);
+        $em->flush();
+	
 
 	$message = \Swift_Message::newInstance()
 		->setSubject($user->getUsername() . ' a été tiré au sort pour les croissants !')
@@ -268,7 +263,7 @@ class DefaultController extends Controller {
     if (isset($_POST['form'])) {
 	$em = $this->getDoctrine()->getManager();
 	$user = $em->getRepository('persoCroissantBundle:user')->findOneById($this->getUser()->getId());
-        if ($user->getCoefficient() < 5 && ($user->getLastTrap()<new DateTime(date("Y-m-d H:i:s",strtotime("-1 hour"))))) {
+        if ($user->getCoefficient() < 20 && ($user->getLastTrap()<new DateTime(date("Y-m-d H:i:s",strtotime("-1 hour"))))) {
 	    $user->setCoefficient($user->getCoefficient() + 1);
 	    $user->setlastTrap(new DateTime(date("Y-m-d H:i:s")));
 	    $em->flush();
@@ -285,7 +280,7 @@ class DefaultController extends Controller {
     public function trappedUserAction() {
 		
 	
-	return $this->render('persoCroissantBundle::trapUser.html.twig', array('user' => $user, 'dateFlag' => new DateTime(), "ipUser" => $_SERVER['REMOTE_ADDR']));
+	return $this->render('persoCroissantBundle::trapUser.html.twig', array('user' => $this->getUser(), 'dateFlag' => new DateTime(), "ipUser" => $_SERVER['REMOTE_ADDR']));
     }
     /**
      * @Route("/forceAccept")
@@ -368,6 +363,43 @@ class DefaultController extends Controller {
 	$connection->executeUpdate($platform->getTruncateTableSQL('history', true /* whether to cascade ));*/
 	$historyCroissant = $em->getRepository('persoCroissantBundle:history')->deleteAll();
 	return new Response(json_encode("ok"));
+    }
+
+    /**
+     * @Route("/api/upCoef/{email}")
+     * @Template()
+     */
+    public function upCoefAction($email) {
+	$em = $this->getDoctrine()->getManager();
+	$user = $em->getRepository('persoCroissantBundle:user')->findOneByEmail($email);
+        if ($user->getCoefficient() < 20 && ($user->getLastUp()<new DateTime(date("Y-m-d H:i:s",strtotime("-1 hour"))))) {
+	    $user->setCoefficient($user->getCoefficient() + 1);
+	    $user->setlastUp(new DateTime(date("Y-m-d H:i:s")));
+	    $em->flush();
+	
+            return new Response(json_encode("ok"));
+        }else{
+            return new Response(json_encode("ko"));
+        }
+    }
+    /**
+     * @Route("/api/downCoef/{email}")
+     * @Template()
+     */
+    public function downCoefAction($email) {
+	$em = $this->getDoctrine()->getManager();
+	$user = $em->getRepository('persoCroissantBundle:user')->findOneByEmail($email);
+        
+        if ($user->getCoefficient() > 0 ){
+            $user->setCoefficient($user->getCoefficient() -1 );
+            $user->setlastUp(new DateTime(date("Y-m-d H:i:s")));
+            $em->flush();
+            return new Response(json_encode("ok"));
+        }
+        else{
+            return new Response(json_encode("ok"));
+             
+        }
     }
 
 }
