@@ -38,7 +38,7 @@ class UserChose {
 	    $arrayCoef = array_values($arrayCoef); //Array_slice will be better 
 		
 		// On regarde si l'user a amener les croissant il y a moins de trois semaine
-	    $historyUser = $this->em->getRepository('persoCroissantBundle:history')->findAllFromDateAndIdUser(date("Y-m-d 00:00:00", strtotime("-3 weeks")), $user->getId());
+	    $historyUser = $this->em->getRepository('persoCroissantBundle:history')->findAllFromDateAndIdUser(date("Y-m-d 00:00:00", strtotime("-3 weeks")),date("Y-m-d 00:00:00", strtotime("+3 weeks")), $user->getId());
 	   
 		// Tant que oui on choisit un autre user
 	    while (sizeof($historyUser) != 0) {
@@ -50,7 +50,7 @@ class UserChose {
 		    $rand = rand(0, sizeof($arrayCoef) - 1);
 		    $user = $this->em->getRepository('persoCroissantBundle:user')->findOneById($arrayCoef[$rand]);
 
-		    $historyUser = $this->em->getRepository('persoCroissantBundle:history')->findAllFromDateAndIdUser(date("Y-m-d 00:00:00", strtotime("-3 weeks")), $user->getId());
+		    $historyUser = $this->em->getRepository('persoCroissantBundle:history')->findAllFromDateAndIdUser(date("Y-m-d 00:00:00", strtotime("-3 weeks")),date("Y-m-d 00:00:00", strtotime("+3 weeks")), $user->getId());
 		} else {
 		//Sinon on annule le tirage
 		    return array();
@@ -60,6 +60,7 @@ class UserChose {
 		//On crée un token présent dans le mail pour pouvoir accepter ou refusé
 	    $user->setToken($token);
 	    $history = new \perso\CroissantBundle\Entity\history();
+	    $history->setUser($user);
 	    $history->setIdUser($user->getId());
 	    $history->setDateCroissant(new DateTime(date("Y-M-d")));
 	    $history->setOk(0);
