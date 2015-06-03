@@ -9,6 +9,7 @@ security:
     # http://symfony.com/doc/current/book/security.html#hierarchical-roles
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER
+        ROLE_API:         ROLE_API
         ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
@@ -20,6 +21,7 @@ security:
             memory:
                 users:
                     user:  { password: userpass, roles: [ 'ROLE_USER' ] }
+                    api:  { password: apijuc2015, roles: [ 'ROLE_API' ] }
                     admin: { password: croi2015croi, roles: [ 'ROLE_ADMIN' ] }
         my_custom_hwi_provider:
             id: ib_user.oauth_user_provider
@@ -32,8 +34,21 @@ security:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
         # the login page has to be accessible for everybody
+        api:
+            pattern:  ^/api
+            http_basic: ~
+            logout:
+                path:   /logout
+                target: /
+        admin:
+            pattern:  ^/admin
+            http_basic: ~
+            logout:
+                path:   /logout
+                target: /
+        # secures part of the application
         user:
-            pattern:  ^/(?!admin)
+            pattern:  ^/
             anonymous: true
             logout: true
             provider: oauth
@@ -46,14 +61,7 @@ security:
 
                 oauth_user_provider:
                     service: ib_user.oauth_user_provider
-
-        admin:
-            pattern:  ^/admin
-            http_basic: ~
-            logout:
-                path:   /logout
-                target: /
-        # secures part of the application
+       
         
             #anonymous: ~
             #http_basic:
@@ -66,4 +74,5 @@ security:
         - { path: ^/(login|connect), roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: ROLE_USER }
         - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/api, roles: ROLE_API }
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
