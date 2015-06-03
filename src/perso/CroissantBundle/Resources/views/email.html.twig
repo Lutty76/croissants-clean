@@ -7,13 +7,13 @@
 
 
 	    {% if user.joker>0 %}
-		Vous pouvez refusé en utilisant un joker ({{user.joker}} restant) en cliquant sur ce lien <a href="{{ url('_decline', {'token' : user.token } ) }}">Utilisé un joker</a><br />
+		Vous pouvez refuser en utilisant un joker ({{user.joker}} restant(s)) en cliquant sur ce lien <a href="{{ url('_decline', {'token' : user.token } ) }}">Utiliser un joker</a><br />
 	    {% else %}
 		Vous n'avez plus de joker disponible ....<br />
 	    {% endif %}
-	    Vous pouvez accepté en cliquant sur ce lien <a href="{{ url('_accept', {'token' : user.token} ) }}">Accepter de ramener les croissants</a><br />
+	    Vous pouvez accepter en cliquant sur ce lien <a href="{{ url('_accept', {'token' : user.token} ) }}">Accepter de ramener les croissants</a><br />
 	    <br /><br />
-	    Si vous n'accepté pas, ce sera accepté d'office et un mail sera envoyé a tous le monde à 16H.<br />
+	    Si vous n'acceptez pas, ce sera accepté d'office et un mail sera envoyé à tout le monde à 16H.<br />
 
 	</body>
     </html>
