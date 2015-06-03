@@ -17,7 +17,8 @@ html{
 }
 
 #header{
-    background-image: url(http://www.beekoz.fr/wp-content/uploads/2014/08/croissant.jpg);
+    //background-image: url(http://www.beekoz.fr/wp-content/uploads/2014/08/croissant.jpg);
+    background-image: url(https://oleebranch.files.wordpress.com/2014/02/wpid-pretzel_croissant.jpg);
     background-size: cover;
     background-position: center;
     text-align: center;
