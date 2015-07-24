@@ -5,23 +5,25 @@ namespace CreativeData\CroissantBundle\Auth;
 use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUserProvider;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 use CreativeData\CroissantBundle\Entity\User;
- 
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+
 class OAuthProvider extends OAuthUserProvider
 {
-    protected $session, $doctrine, $admins;
+    protected $session, $doctrine, $admins,$logger;
  
-    public function __construct($session, $doctrine, $service_container)
+    public function __construct($session, $doctrine, $service_container,$logger)
     {
         $this->session = $session;
         $this->doctrine = $doctrine;
         $this->container = $service_container;
+        $this->logger = $logger;
     }
  
     public function loadUserByUsername($username)
     {
         $result = $this->doctrine->getRepository('CreativeDataCroissantBundle:User')->findOneByGoogleId($username);
-       
-        if ($result !== null) {   
+     
+        if ($result !== null) {  
             return $result;
         } else {
             return new User();
@@ -39,8 +41,15 @@ class OAuthProvider extends OAuthUserProvider
         //Check if this Google user already exists in our app DB
         $result = $this->doctrine->getRepository('CreativeDataCroissantBundle:User')->findOneByEmail($email);
  
-        //add to database if doesn't exists
-        if ($result==null) {
+        //test if  have a @creativedata.fr adresse
+         if ( strpos($email, "@creativedata.fr")=== false){
+             
+             throw new AccessDeniedHttpException("Domain not allowed",null,403);
+         }
+        
+        
+        //add to database if doesn't exists 
+        if ($result==null ) {
             $user = new User();
             $user->setGoogleId($google_id);
             $user->setEmail($email);
