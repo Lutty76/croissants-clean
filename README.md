@@ -44,6 +44,11 @@ Utilisateur inscrit : Arnaud ?, marie, Nathalie , Yann Nico, Aurelien, Anthony ,
 | Statistique                |   X  |          |     |
 | Design                     |   X  |          |     |
 | Cas d'erreur               |      |          |  X  |
+| Test unitaire              |      |          |  X  |
+
+##
+
+Note : Avant de rendre public les sources faire attention au Email qui seront public aussi... Surtout le mien ...
 
 ## Copyright
 
