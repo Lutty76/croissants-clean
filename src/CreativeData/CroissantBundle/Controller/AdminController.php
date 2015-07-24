@@ -127,8 +127,12 @@ class AdminController extends Controller {
      */
     public function sendEmailAction() {
 	$em = $this->getDoctrine()->getManager();
-	$history = $em->getRepository('CreativeDataCroissantBundle:History')->findOneByOk(1);
-	$user = $history->getUser();
+	$history = $em->getRepository('CreativeDataCroissantBundle:History')->findTomorrow();
+        if (count($history)==0)
+        {
+            return new Response("nobody");
+        }
+	$user = $history[0]->getUser();
 
 	$message = \Swift_Message::newInstance()
 		->setSubject($user->getUsername() . ' a été tiré au sort pour les croissants !')
@@ -138,7 +142,7 @@ class AdminController extends Controller {
 		->addPart($user->getUsername() . " ramènera les croissants demain !");
 	$this->get('mailer')->send($message);
 
-	return new Response(json_encode("ok"));
+	return new Response(json_encode($user->getUsername()));
     }
 
     /**

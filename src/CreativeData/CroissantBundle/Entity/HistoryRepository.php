@@ -30,7 +30,7 @@ class HistoryRepository extends EntityRepository {
     function findAllPublicFromDate($date) {
 	return $this->getEntityManager()->createQuery('
 	SELECT h FROM CreativeDataCroissantBundle:History h 
-	WHERE h.ok!=0 AND h.ok!=2 AND h.dateCroissant >= :date_from')->setParameter('date_from', $date)->getResult();
+	WHERE h.ok!=0 AND h.ok!=2 AND h.dateCroissant >= :date_from ORDER BY h.dateCroissant')->setParameter('date_from', $date)->getResult();
     }
     function findAllFromDateNotRefused($datedeb,$datefin) {
 	return $this->getEntityManager()->createQuery('
@@ -49,8 +49,16 @@ class HistoryRepository extends EntityRepository {
 		    WHERE h.dateCroissant >= :date_from AND h.dateCroissant <= :date_to AND  h.userId = :idUser')
 			->setParameter('date_from', $date_from)->setParameter('date_to', $date_to)->setParameter('idUser', $user->getId())->getResult();
     }
- function deleteAll() {
+    function deleteAll() {
 	return $this->getEntityManager()->createQuery('
 	DELETE FROM  CreativeDataCroissantBundle:History')->getResult();
+    }
+    function findTomorrow() {
+	return $this->getEntityManager()->createQuery('
+	SELECT h FROM CreativeDataCroissantBundle:History h 
+	WHERE h.ok!=0 AND h.ok!=2 AND h.dateCroissant >= :date_from AND h.dateCroissant <= :date_to  ORDER BY h.dateCroissant ')
+                ->setParameter('date_from', date("Y-m-d 00:00:00",strtotime("now")))
+                ->setParameter('date_to', date("Y-m-d 00:00:00",strtotime("+2 days")))
+                ->getResult();
     }
 }
