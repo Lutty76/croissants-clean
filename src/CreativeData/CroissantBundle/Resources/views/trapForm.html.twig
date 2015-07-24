@@ -1,0 +1,13 @@
+{% extends 'CreativeDataCroissantBundle::base.html.twig' %}
+
+{% block title %}Proposer des croissants{% endblock %}
+
+{% block body %}
+ {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+
+   
+  {{ form_widget(form.test, {'attr': {'class': 'hidden'},'readonly':true})}}
+  {{ form_widget(form.save, { 'label': 'Cliquez ici' }) }}
+  {{ form_rest(form) }}
+  {{ form_end(form) }}
+{% endblock %}

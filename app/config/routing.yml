@@ -6,8 +6,8 @@ hwi_oauth_login:
     resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
     prefix:   /login
 
-perso_croissant:
-    resource: "@persoCroissantBundle/Controller/"
+creativedata_croissant:
+    resource: "@CreativeDataCroissantBundle/Controller/"
     type:     annotation
     prefix:   /
   
@@ -16,7 +16,3 @@ login_check:
   
 logout:
     path:   /logout
-
-app:
-    resource: "@AppBundle/Controller/"
-    type:     annotation

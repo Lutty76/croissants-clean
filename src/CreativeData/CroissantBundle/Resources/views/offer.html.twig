@@ -1,0 +1,19 @@
+{% extends 'CreativeDataCroissantBundle::base.html.twig' %}
+
+{% block title %}Proposer des croissants{% endblock %}
+
+{% block body %}
+ {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+
+    {{ form_errors(form) }}
+
+    <div class="input-form">
+      {{ form_label(form.dateCroissant, "Date") }}
+      {{ form_widget(form.dateCroissant) }}
+      <p>{{ form_errors(form.dateCroissant) }}</p>
+    </div>
+   
+  {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+  {{ form_rest(form) }}
+  {{ form_end(form) }}
+{% endblock %}

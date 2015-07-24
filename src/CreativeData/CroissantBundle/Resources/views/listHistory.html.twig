@@ -1,0 +1,22 @@
+{% extends 'CreativeDataCroissantBundle::base.html.twig' %}
+
+{% block title %}Suivi des Croissants{% endblock %}
+
+{% block body %}
+<h3>Croissants à venir</h3>
+<table><tr><th>ID</th><th>Date</th><th>Prénom</th><th>Etat</th></tr>
+     {% for item in historys %}
+                <tr><td>{{ item.id }} </td><td> {{ item.dateCroissant|localizeddate('medium', 'none') }}  </td><td> {{ item.user.username }}  </td><td>  {% if item.ok == 0 %}
+    En attente
+{% elseif item.ok == 1 %}
+    Accepté
+{% elseif item.ok == 2 %}
+    Refusé
+{% elseif item.ok == 3 %}
+    Livré
+{% else %}
+    Non livré
+{% endif %}  </td></tr>
+            {% endfor %}
+</table>
+{% endblock %}

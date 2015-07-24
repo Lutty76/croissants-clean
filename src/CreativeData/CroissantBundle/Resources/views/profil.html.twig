@@ -1,0 +1,32 @@
+{% extends 'CreativeDataCroissantBundle::base.html.twig' %}
+
+{% block title %}Profil de {{user.username }}{% endblock %}
+
+{% block body %}
+<h3>Profil de {{user.username }}</h3>
+
+Joker : {{ user.joker }}<br />
+{% if user.premium == 1 %}
+Membre premium<br />
+{% endif %}
+
+
+<p>Historique de croissants :</p>
+<table><tr><th>ID</th><th>Date</th><th>Croissant</th></tr>
+     {% for item in history %}
+                <tr><td>{{ item.id }} </td><td>{{ item.dateCroissant|date('d/m/Y') }}  </td><td> 
+{% if item.ok == 0 %}
+    En attente
+{% elseif item.ok == 1 %}
+    Accepté
+{% elseif item.ok == 2 %}
+    Refusé
+{% elseif item.ok == 3 %}
+    Livré
+{% else %}
+    Non livré
+{% endif %}
+</td></tr>
+            {% endfor %}
+</table>
+{% endblock %}
