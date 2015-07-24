@@ -19,17 +19,10 @@ class OAuthProvider extends OAuthUserProvider
  
     public function loadUserByUsername($username)
     {
- 
-        $qb = $this->doctrine->getManager()->createQueryBuilder();
-        $qb->select('u')
-            ->from('CreativeDataCroissantBundle:User', 'u')
-            ->where('u.googleId = :gid')
-            ->setParameter('gid', $username)
-            ->setMaxResults(1);
-        $result = $qb->getQuery()->getResult();
-     
-        if (count($result)) {   
-            return $result[0];
+        $result = $this->doctrine->getRepository('CreativeDataCroissantBundle:User')->findOneByGoogleId($username);
+       
+        if ($result !== null) {   
+            return $result;
         } else {
             return new User();
         }
@@ -39,29 +32,24 @@ class OAuthProvider extends OAuthUserProvider
     {
         //Data from Google response
         $google_id = $response->getUsername(); /* An ID like: 112259658235204980084 */
+        
         $email = $response->getEmail();
+        $name = $response->getNickname();
  
-      
         //Check if this Google user already exists in our app DB
-        $qb = $this->doctrine->getManager()->createQueryBuilder();
-        $qb->select('u')
-            ->from('CreativeDataCroissantBundle:User', 'u')
-            ->where('u.email = :gid')
-            ->setParameter('gid', $email)
-            ->setMaxResults(1);
-        $result = $qb->getQuery()->getOneOrNullResult();
+        $result = $this->doctrine->getRepository('CreativeDataCroissantBundle:User')->findOneByEmail($email);
  
         //add to database if doesn't exists
         if ($result==null) {
             $user = new User();
             $user->setGoogleId($google_id);
             $user->setEmail($email);
+            $user->setUsername($name);
             //$user->setRoles('ROLE_USER');
  
             //Set some wild random pass since its irrelevant, this is Google login
             $factory = $this->container->get('security.encoder_factory');
      
- 
             $em = $this->doctrine->getManager();
             $em->persist($user);
             $em->flush();
