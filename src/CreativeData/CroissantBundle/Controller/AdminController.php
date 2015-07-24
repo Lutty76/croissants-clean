@@ -106,14 +106,14 @@ class AdminController extends Controller {
      */
     public function resetJokerAction() {
 	$em = $this->getDoctrine()->getManager();
-	$user = $em->getRepository('CreativeDataCroissantBundle:user')->findAll();
+	$users = $em->getRepository('CreativeDataCroissantBundle:user')->findAll();
 	   
-	foreach($user as $one)
+	foreach($users as $user)
 	{
-	    if($one->getPremium() == 1)
-		$one->setJoker(3);
+	    if($user->getPremium() == 1)
+		$user->setJoker(3);
 	    else
-		$one->setJoker(1);
+		$user->setJoker(1);
 		
 	}
 	$em->flush();
@@ -151,26 +151,22 @@ class AdminController extends Controller {
      */
     public function truncateHistoryAction() {
 	$em = $this->getDoctrine()->getManager();
-/*	$connection = $em->getConnection();
-	$platform = $connection->getDatabasePlatform();
-
-	$connection->executeUpdate($platform->getTruncateTableSQL('History', true /* whether to cascade ));*/
-	$historyCroissant = $em->getRepository('CreativeDataCroissantBundle:History')->deleteAll();
+	$em->getRepository('CreativeDataCroissantBundle:History')->deleteAll();
 	return new Response(json_encode("ok"));
     }
-	
     /**
-     * @Route("/delHistory")
+     * @Route("/upAll")
      * @Template()
      */
-    public function delHistoryAction() {
+    public function upAllAction() {
 	$em = $this->getDoctrine()->getManager();
-/*	$connection = $em->getConnection();
-	$platform = $connection->getDatabasePlatform();
-
-	$connection->executeUpdate($platform->getTruncateTableSQL('History', true /* whether to cascade ));*/
-	$historyCroissant = $em->getRepository('CreativeDataCroissantBundle:History')->deleteAll();
+	$users = $em->getRepository('CreativeDataCroissantBundle:User')->findAll();
+        
+        foreach($users as $user){
+            $user->setCoef($user->getCoef()+1);
+        }
+        $em->flush();
+        
 	return new Response(json_encode("ok"));
     }
-
 }
