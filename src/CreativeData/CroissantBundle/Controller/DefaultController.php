@@ -80,7 +80,7 @@ class DefaultController extends Controller {
     public function userProfilAction($id) {
 
 	$user = $this->getDoctrine()->getRepository('CreativeDataCroissantBundle:User')->findOneById($id);
-	$history = $this->getDoctrine()->getRepository('CreativeDataCroissantBundle:History')->findByIdUser($id);
+	$history = $this->getDoctrine()->getRepository('CreativeDataCroissantBundle:History')->findByUser($user);
 	return $this->render('CreativeDataCroissantBundle::profil.html.twig', array('user' => $user, "history" => $history));
     }
 
@@ -97,7 +97,6 @@ class DefaultController extends Controller {
 	if ($form->isValid()) {
 	    $em = $this->getDoctrine()->getManager();
 		$history->setUser($this->getUser());
-		$history->setIdUser($this->getUser()->getId());
 		$history->setOk(1);
 	    $em->persist($history);
 	    $em->flush();
@@ -123,7 +122,7 @@ class DefaultController extends Controller {
 	$history = $this->getDoctrine()->getRepository('CreativeDataCroissantBundle:History')->findOneBy(
 		array(
 		    "dateCroissant" => new DateTime(date("Y-M-d")),
-		    "idUser" => $user->getId()
+		    "user" => $user
 		)
 	);
 
@@ -157,7 +156,7 @@ class DefaultController extends Controller {
 	$history = $this->getDoctrine()->getRepository('CreativeDataCroissantBundle:History')->findOneBy(
 		array(
 		    "dateCroissant" => new DateTime(date("Y-M-d")),
-		    "idUser" => $user->getId()
+		    "user" => $user
 		)
 	);
 

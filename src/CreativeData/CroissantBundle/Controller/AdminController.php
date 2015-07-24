@@ -47,7 +47,7 @@ class AdminController extends Controller {
 
 	    return $this->redirect($this->generateUrl("_userList"));
 	}
-	return $this->render('CreativeDataCroissantBundle::addUser.html.twig', array('form' => $form->createView()));
+	return $this->render('CreativeDataCroissantBundle:admin:addUser.html.twig', array('form' => $form->createView()));
     }
 
     /**
@@ -78,13 +78,12 @@ class AdminController extends Controller {
 	if (sizeof($historyCroissant) == 0) {
 	   $user =  $this->container->get('CreativeData_croissant.my_user_choser')->getUser($user);
 	   if (sizeof($user)==0)
-	   return $this->render('CreativeDataCroissantBundle::notFoundUser.html.twig');
+	   return $this->render('CreativeDataCroissantBundle:admin:notFoundUser.html.twig');
 	} else {
 	    
-	    $user = $em->getRepository('CreativeDataCroissantBundle:User')->findOneById($historyCroissant[0]->getIdUser());
-	    return $this->render('CreativeDataCroissantBundle::chose.html.twig', array('chosen' => $user));
+	    return $this->render('CreativeDataCroissantBundle:admin:chose.html.twig', array('chosen' => $historyCroissant[0]->getUser()));
 	}
-	return $this->render('CreativeDataCroissantBundle::chose.html.twig', array('chosen' => $user));
+	return $this->render('CreativeDataCroissantBundle:admin:chose.html.twig', array('chosen' => $user));
     }
 
     /**
@@ -129,7 +128,7 @@ class AdminController extends Controller {
     public function sendEmailAction() {
 	$em = $this->getDoctrine()->getManager();
 	$history = $em->getRepository('CreativeDataCroissantBundle:History')->findOneByOk(1);
-	$user = $em->getRepository('CreativeDataCroissantBundle:User')->findOneById($history->getIdUser());
+	$user = $history->getUser();
 
 	$message = \Swift_Message::newInstance()
 		->setSubject($user->getUsername() . ' a été tiré au sort pour les croissants !')

@@ -76,29 +76,6 @@ class History
     }
 
     /**
-     * Set idUser
-     *
-     * @param integer $idUser
-     * @return History
-     */
-    public function setIdUser($idUser)
-    {
-        $this->idUser = $idUser;
-
-        return $this;
-    }
-
-    /**
-     * Get idUser
-     *
-     * @return integer 
-     */
-    public function getIdUser()
-    {
-        return $this->idUser;
-    }
-
-    /**
      * Set ok
      *
      * @param integer $ok
