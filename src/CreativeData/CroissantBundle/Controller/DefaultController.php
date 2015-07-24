@@ -7,15 +7,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use \DateTime;
-use CreativeData\CroissantBundle\Entity\User;
-use CreativeData\CroissantBundle\Entity\History;
-use CreativeData\CroissantBundle\Form\UserType;
 use CreativeData\CroissantBundle\Form\HistoryType;
-use HWI\Bundle\OAuthBundle;
 
 class DefaultController extends Controller {
-
-    
 
     /**
      * @Route("/")
@@ -43,15 +37,6 @@ class DefaultController extends Controller {
 	return $this->render('CreativeDataCroissantBundle::listHistory.html.twig', array('historys' => $history));
     }
 
-    /**
-     * @Route("/admin/listHistory")
-     * @Template()
-     */
-    public function listHistoryAction() {
-	$history = $this->getDoctrine()->getRepository('CreativeDataCroissantBundle:History')->findAll();
-	return $this->render('CreativeDataCroissantBundle::listHistory.html.twig', array('historys' => $history));
-    }
-    
     /**
      * @Route("/stats",name="_stats")
      * @Template()
@@ -88,68 +73,6 @@ class DefaultController extends Controller {
         $data = array_values($data);
 	return new Response(json_encode($data));
     }
-    /**
-     * @Route("/admin/addUser")
-     * @Template()
-     */
-    public function addUserAction(Request $request) {
-	// crée une tâche et lui donne quelques données par défaut pour cet exemple
-	$user = new \CreativeData\CroissantBundle\Entity\User();
-	$form = $this->get("form.factory")->create(new UserType(), $user);
-
-	$form->handleRequest($request);
-
-	if ($form->isValid()) {
-	    $em = $this->getDoctrine()->getManager();
-	    if ($user->getPremium())
-		$user->setJoker(3);
-	    $em->persist($user);
-	    $em->flush();
-
-	    $request->getSession()->getFlashBag()->add('notice', 'User bien enregistrée.');
-
-	    return $this->redirect($this->generateUrl("_userList"));
-	}
-	return $this->render('CreativeDataCroissantBundle::addUser.html.twig', array('form' => $form->createView()));
-    }
-
-    /**
-     * @Route("/admin/removeUser/{id}")
-     * @Template()
-     */
-    public function removeUserAction($id) {
-	$em = $this->getDoctrine()->getManager();
-	$user = $em->getRepository('CreativeDataCroissantBundle:User')->findOneById($id);
-
-	$em->remove($user);
-	$em->flush();
-	return $this->redirect($this->generateUrl("_userList"));
-    }
-
-    /**
-     * @Route("/admin/choseUser")
-     * @Template()
-     */
-    public function selectUserAction() {
-	$em = $this->getDoctrine()->getManager();
-	$user = $em->getRepository('CreativeDataCroissantBundle:User')->findAll();
-
-
-	// Verifier si personne ne s'est pas déja proposé
-	$historyCroissant = $em->getRepository('CreativeDataCroissantBundle:History')->findAllFromDateNotRefused( date("Y-m-d 00:00:00", strtotime("-5 days")), date("Y-m-d 00:00:00", strtotime("+2 days")));
-	
-	if (sizeof($historyCroissant) == 0) {
-	   $user =  $this->container->get('CreativeData_croissant.my_user_choser')->getUser($user);
-	   if (sizeof($user)==0)
-	   return $this->render('CreativeDataCroissantBundle::notFoundUser.html.twig');
-	} else {
-	    
-	    $user = $em->getRepository('CreativeDataCroissantBundle:User')->findOneById($historyCroissant[0]->getIdUser());
-	    return $this->render('CreativeDataCroissantBundle::chose.html.twig', array('chosen' => $user));
-	}
-	return $this->render('CreativeDataCroissantBundle::chose.html.twig', array('chosen' => $user));
-    }
-
     /**
      * @Route("/profil/{id}",name="_profil")
      * @Template()
@@ -282,124 +205,4 @@ class DefaultController extends Controller {
 	
 	return $this->render('CreativeDataCroissantBundle::trapUser.html.twig', array('user' => $this->getUser(), 'dateFlag' => new DateTime(), "ipUser" => $_SERVER['REMOTE_ADDR']));
     }
-    /**
-     * @Route("/forceAccept")
-     * @Template()
-     */
-    public function forceAcceptAction() {
-	$em = $this->getDoctrine()->getManager();
-	$history = $em->getRepository('CreativeDataCroissantBundle:History')->findOneByOk(0);
-
-	$history->setOk(1);
-	$em->flush();
-
-	return new Response(json_encode("ok"));
-    }
-
-    /**
-     * @Route("/admin/resetJoker")
-     * @Template()
-     */
-    public function resetJokerAction() {
-	$em = $this->getDoctrine()->getManager();
-	$user = $em->getRepository('CreativeDataCroissantBundle:user')->findAll();
-	   
-	foreach($user as $one)
-	{
-	    if($one->getPremium() == 1)
-		$one->setJoker(3);
-	    else
-		$one->setJoker(1);
-		
-	}
-	$em->flush();
-
-	return new Response(json_encode("ok"));
-    }
-
-    /**
-     * @Route("/admin/sendEmail")
-     * @Template()
-     */
-    public function sendEmailAction() {
-	$em = $this->getDoctrine()->getManager();
-	$history = $em->getRepository('CreativeDataCroissantBundle:History')->findOneByOk(1);
-	$user = $em->getRepository('CreativeDataCroissantBundle:User')->findOneById($history->getIdUser());
-
-	$message = \Swift_Message::newInstance()
-		->setSubject($user->getUsername() . ' a été tiré au sort pour les croissants !')
-		->setFrom('kevin@creativedata.fr')
-		->setTo("all-seineinno@creativedata.fr") //TODO set good email $user->etEmail();
-		->setBody($user->getUsername() . " ramènera les croissants demain !")
-		->addPart($user->getUsername() . " ramènera les croissants demain !");
-	$this->get('mailer')->send($message);
-
-	return new Response(json_encode("ok"));
-    }
-
-    /**
-     * @Route("/admin/truncateHistory")
-     * @Template()
-     */
-    public function truncateHistoryAction() {
-	$em = $this->getDoctrine()->getManager();
-/*	$connection = $em->getConnection();
-	$platform = $connection->getDatabasePlatform();
-
-	$connection->executeUpdate($platform->getTruncateTableSQL('History', true /* whether to cascade ));*/
-	$historyCroissant = $em->getRepository('CreativeDataCroissantBundle:History')->deleteAll();
-	return new Response(json_encode("ok"));
-    }
-	
-    /**
-     * @Route("/admin/delHistory")
-     * @Template()
-     */
-    public function delHistoryAction() {
-	$em = $this->getDoctrine()->getManager();
-/*	$connection = $em->getConnection();
-	$platform = $connection->getDatabasePlatform();
-
-	$connection->executeUpdate($platform->getTruncateTableSQL('History', true /* whether to cascade ));*/
-	$historyCroissant = $em->getRepository('CreativeDataCroissantBundle:History')->deleteAll();
-	return new Response(json_encode("ok"));
-    }
-
-    /**
-     * @Route("/api/upCoef/{email}")
-     * @Template()
-     */
-    public function upCoefAction($email) {
-	$em = $this->getDoctrine()->getManager();
-	$user = $em->getRepository('CreativeDataCroissantBundle:User')->findOneByEmail($email);
-        if ($user->getCoefficient() < 20 && ($user->getLastUp()<new DateTime(date("Y-m-d H:i:s",strtotime("-1 hour"))))) {
-	    $user->setCoefficient($user->getCoefficient() + 1);
-	    $user->setlastUp(new DateTime(date("Y-m-d H:i:s")));
-	    $em->flush();
-	
-            return new Response(json_encode("ok"));
-        }else{
-            return new Response(json_encode("ko"));
-        }
-    }
-    /**
-     * @Route("/api/downCoef/{email}")
-     * @Template()
-     */
-    public function downCoefAction($email) {
-	$em = $this->getDoctrine()->getManager();
-	$user = $em->getRepository('CreativeDataCroissantBundle:User')->findOneByEmail($email);
-        
-        if ($user->getCoefficient() > 0 ){
-            $user->setCoefficient($user->getCoefficient() -1 );
-            $user->setlastUp(new DateTime(date("Y-m-d H:i:s")));
-            $em->flush();
-            return new Response(json_encode("ok"));
-        }
-        else{
-            return new Response(json_encode("ok"));
-             
-        }
-    }
-
 }
