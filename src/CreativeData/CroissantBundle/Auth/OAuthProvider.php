@@ -9,13 +9,14 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class OAuthProvider extends OAuthUserProvider
 {
-    protected $session, $doctrine, $admins,$logger;
+    protected $session, $doctrine, $admins,$logger ,$domain;
  
-    public function __construct($session, $doctrine, $service_container,$logger)
+    public function __construct($session, $doctrine,$service_container, $domain,$logger)
     {
         $this->session = $session;
         $this->doctrine = $doctrine;
         $this->container = $service_container;
+        $this->domain = $domain;
         $this->logger = $logger;
     }
  
@@ -36,13 +37,14 @@ class OAuthProvider extends OAuthUserProvider
         $google_id = $response->getUsername(); /* An ID like: 112259658235204980084 */
         
         $email = $response->getEmail();
-        $name = $response->getNickname();
+        $name = ucfirst(explode("@",$email)[0]);
  
         //Check if this Google user already exists in our app DB
         $result = $this->doctrine->getRepository('CreativeDataCroissantBundle:User')->findOneByEmail($email);
  
         //test if  have a @creativedata.fr adresse
-         if ( strpos($email, "@creativedata.fr")=== false){
+        
+         if ( strpos($email, '@'.$this->domain)=== false){
              
              throw new AccessDeniedHttpException("Domain not allowed",null,403);
          }
