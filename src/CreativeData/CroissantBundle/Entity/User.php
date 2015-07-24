@@ -112,7 +112,7 @@ class User implements UserInterface{
     private $lastUp;
 
     /**
-     * @ORM\OneToMany(targetEntity="History", mappedBy="idUser")
+     * @ORM\OneToMany(targetEntity="History", mappedBy="user")
      */
     private $historys;
  

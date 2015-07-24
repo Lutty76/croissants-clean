@@ -28,17 +28,12 @@ class History
      */
     private $dateCroissant;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="idUser", type="integer")
-     */
-    private $idUser;
 
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="historys")
      */
     private $user;
+    
     /**
      * @var integer
      *
