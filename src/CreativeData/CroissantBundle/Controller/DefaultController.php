@@ -70,9 +70,15 @@ class DefaultController extends Controller {
      */
     public function statToChoseAction() {
 	$user = $this->getDoctrine()->getRepository('CreativeDataCroissantBundle:User')->findAll();
+        $historyImmunised = $this->getDoctrine()->getRepository('CreativeDataCroissantBundle:History')
+                ->findAllFromDateNotRefused(date("Y-m-d 00:00:00",strtotime("-3 weeks")),date("Y-m-d 00:00:00",  strtotime("+1 day")));
+        $userImmunised = array();
+        foreach($historyImmunised as $one)
+            $userImmunised[$one->getUser()->getId()]=$one->getUser();
         $data = array();
         foreach($user as $one)
-          array_push($data,array($one->getUsername(),$one->getCoefficient()));
+            if (!in_array($one, $userImmunised))
+                array_push($data,array($one->getUsername(),$one->getCoefficient()));
         
 	return new Response(json_encode($data));
     }
