@@ -13,7 +13,7 @@
                    <td> <a href="{{ path('_profil',{ id :  item.id  }) }}"> {{ item.username }} </a> </td>
                    <td> <a href="{{ path('_profil',{ id :  item.id  }) }}">{{ item.email }}     </a> </td>
                    <td> {{ item.coefficient }}                                                       </td>
-                   <td>                                                                 </td>
+                   <td> {{ selection[item.username][1] }}                                               </td>
                    <td> {{ item.joker }}                                                             </td>
                </tr>
 

@@ -32,8 +32,18 @@ class DefaultController extends Controller {
      */
     public function listUserAction() {
 	$user = $this->getDoctrine()->getRepository('CreativeDataCroissantBundle:user')->findAll();
+	$history = $this->getDoctrine()->getRepository('CreativeDataCroissantBundle:History')->findAllToDateAccepted(date("Y-m-d 00:00:00"));
        //print_r($user);
-	return $this->render('CreativeDataCroissantBundle::listUser.html.twig', array('users' => $user));
+        $data = array(); //ugly
+        
+        foreach($user as $one)
+            $data[$one->getUsername()]=array($one->getUsername(),0); 
+        foreach($history as $one)
+            $data[$one->getUser()->getUsername()]=array($one->getUser()->getUsername(),$data[$one->getUser()->getUsername()][1]+1); 
+         
+        
+        
+	return $this->render('CreativeDataCroissantBundle::listUser.html.twig', array('users' => $user,"selection" => $data));
     }
 
     /**
