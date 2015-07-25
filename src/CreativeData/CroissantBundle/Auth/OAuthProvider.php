@@ -9,15 +9,14 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class OAuthProvider extends OAuthUserProvider
 {
-    protected $session, $doctrine, $admins, $mailer, $template, $domain;
+    protected $session, $doctrine, $admins, $container, $domain;
  
-    public function __construct($session, $doctrine, $domain, $template, $mailer)
+    public function __construct($session, $doctrine, $domain, $container)
     {
         $this->session = $session;
         $this->doctrine = $doctrine;
         $this->domain = $domain;
-        $this->mailer = $mailer;
-        $this->template = $template;
+        $this->container = $container;
     }
  
     public function loadUserByUsername($username)
@@ -64,13 +63,15 @@ class OAuthProvider extends OAuthUserProvider
             $em = $this->doctrine->getManager();
             $em->persist($user);
             $em->flush();
+        $template = $this->container->get('templating');
+        $mailer = $this->container->get('mailer');
              $message = \Swift_Message::newInstance()
 		    ->setSubject('Vous vous êtes inscrit pour les croissants !')
 		    ->setFrom('kevin@creativedata.fr')
 		    ->setTo($user->getEmail()) //TODO set good email $user->etEmail();
-		    ->setBody($this->template->render('CreativeDataCroissantBundle:email:signin.txt.twig', array('user' => $user)))
-		    ->addPart($this->template->render('CreativeDataCroissantBundle:email:signin.html.twig', array('user' => $user)), "text/html");
-	    $this->mailer->send($message);
+		    ->setBody($template->render('CreativeDataCroissantBundle:email:signin.txt.twig', array('user' => $user)))
+		    ->addPart($template->render('CreativeDataCroissantBundle:email:signin.html.twig', array('user' => $user)), "text/html");
+	    $mailer->send($message);
             
         } else {
             $em = $this->doctrine->getManager();

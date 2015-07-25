@@ -7,4 +7,4 @@ services:
         class: HWI\Bundle\OAuthBundle\Security\Core\User\OAuthUserProvider
      ib_user.oauth_user_provider:
         class: CreativeData\CroissantBundle\Auth\OAuthProvider
-        arguments: [@session, @doctrine, %domain%, @templating, @mailer]
+        arguments: [@session, @doctrine, %domain%, @service_container]
