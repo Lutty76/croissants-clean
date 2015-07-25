@@ -8,14 +8,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use \DateTime;
 use CreativeData\CroissantBundle\Form\HistoryType;
-use HWI\Bundle\OAuthBundle\HWIOAuthBundle;
 
-class DefaultController extends HWIOAuthBundle {
+class DefaultController extends Controller {
 
-    public function getParent()
-    {
-        return 'HWIOAuthBundle';
-    }
     /**
      * @Route("/login")
      * @Template()
