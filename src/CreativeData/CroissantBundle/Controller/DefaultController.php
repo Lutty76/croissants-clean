@@ -31,7 +31,7 @@ class DefaultController extends Controller {
      * @Template()
      */
     public function listUserAction() {
-	$user = $this->getDoctrine()->getRepository('CreativeDataCroissantBundle:user')->findAll();
+	$user = $this->getDoctrine()->getRepository('CreativeDataCroissantBundle:user')->findAllOrderByUsername();
 	$history = $this->getDoctrine()->getRepository('CreativeDataCroissantBundle:History')->findAllToDateAccepted(date("Y-m-d 00:00:00"));
        //print_r($user);
         $data = array(); //ugly

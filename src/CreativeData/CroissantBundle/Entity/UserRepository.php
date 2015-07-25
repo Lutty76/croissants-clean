@@ -12,5 +12,9 @@ use Doctrine\ORM\EntityRepository;
  */
 class UserRepository extends EntityRepository
 { 
-   
+    public function findAllOrderByUsername()
+    {
+        return $this->findBy(array(), array('username' => 'ASC'));
+    }
+
 }
