@@ -163,7 +163,7 @@ class AdminController extends Controller {
 	$users = $em->getRepository('CreativeDataCroissantBundle:User')->findAll();
         
         foreach($users as $user){
-            $user->setCoef($user->getCoef()+1);
+            $user->setCoefficient($user->getCoefficient()+1);
         }
         $em->flush();
         
