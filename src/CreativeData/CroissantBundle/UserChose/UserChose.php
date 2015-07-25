@@ -3,6 +3,7 @@
 namespace CreativeData\CroissantBundle\UserChose;
 
 use \DateTime;
+use \Symfony\Bundle\TwigBundle\TwigEngine;
 
 class UserChose {
 
@@ -10,7 +11,7 @@ class UserChose {
     protected $template;
     protected $mailer;
     
-    public function __construct(\Doctrine\ORM\EntityManager $em, \Symfony\Bundle\TwigBundle\TwigEngine  $template, \Swift_Mailer $mailer)
+    public function __construct(\Doctrine\ORM\EntityManager $em, TwigEngine $template, \Swift_Mailer $mailer)
     {      
         $this->em = $em;
         $this->template = $template;

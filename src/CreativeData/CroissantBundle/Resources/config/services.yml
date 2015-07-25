@@ -6,4 +6,4 @@ parameters:
 services:
      creativedata_croissant.my_user_choser:
          class: CreativeData\CroissantBundle\UserChose\UserChose
-         arguments: [ @doctrine.orm.entity_manager , @templating ,@mailer]  
+         arguments: [ @doctrine.orm.entity_manager, @templating, @mailer]  

@@ -9,15 +9,15 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class OAuthProvider extends OAuthUserProvider
 {
-    protected $session, $doctrine, $admins,$mailer ,$domain;
+    protected $session, $doctrine, $admins, $mailer, $template, $domain;
  
-    public function __construct($session, $doctrine,$service_container, $domain, \Swift_Mailer $mailer)
+    public function __construct($session, $doctrine, $domain, $template, $mailer)
     {
         $this->session = $session;
         $this->doctrine = $doctrine;
-        $this->container = $service_container;
         $this->domain = $domain;
         $this->mailer = $mailer;
+        $this->template = $template;
     }
  
     public function loadUserByUsername($username)
@@ -59,12 +59,11 @@ class OAuthProvider extends OAuthUserProvider
             //$user->setRoles('ROLE_USER');
  
             //Set some wild random pass since its irrelevant, this is Google login
-            $factory = $this->container->get('security.encoder_factory');
+            //$factory = $this->container->get('security.encoder_factory');
      
             $em = $this->doctrine->getManager();
             $em->persist($user);
             $em->flush();
-            
              $message = \Swift_Message::newInstance()
 		    ->setSubject('Vous vous êtes inscrit pour les croissants !')
 		    ->setFrom('kevin@creativedata.fr')
