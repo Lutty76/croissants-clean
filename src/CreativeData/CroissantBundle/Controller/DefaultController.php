@@ -8,9 +8,22 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use \DateTime;
 use CreativeData\CroissantBundle\Form\HistoryType;
+use HWI\Bundle\OAuthBundle\HWIOAuthBundle;
 
-class DefaultController extends Controller {
+class DefaultController extends HWIOAuthBundle {
 
+    public function getParent()
+    {
+        return 'HWIOAuthBundle';
+    }
+    /**
+     * @Route("/login")
+     * @Template()
+     */
+    public function loginAction() {
+	return $this->render('CreativeDataCroissantBundle::login.html.twig');
+    }   
+    
     /**
      * @Route("/")
      * @Template()
