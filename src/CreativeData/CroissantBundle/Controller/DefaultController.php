@@ -33,16 +33,16 @@ class DefaultController extends Controller {
     public function listUserAction() {
 	$user = $this->getDoctrine()->getRepository('CreativeDataCroissantBundle:user')->findAllOrderByUsername();
 	$history = $this->getDoctrine()->getRepository('CreativeDataCroissantBundle:History')->findAllToDateAccepted(date("Y-m-d 00:00:00"));
-       //print_r($user);
-        $data = array(); //ugly
+        $historyImmunised = $this->getDoctrine()->getRepository('CreativeDataCroissantBundle:History')
+                ->findAllFromDateNotRefused(date("Y-m-d 00:00:00",strtotime("-3 weeks")),date("Y-m-d 00:00:00",  strtotime("+1 day")));
         
-        foreach($user as $one)
-            $data[$one->getUsername()]=array($one->getUsername(),0); 
-        foreach($history as $one)
-            $data[$one->getUser()->getUsername()]=array($one->getUser()->getUsername(),$data[$one->getUser()->getUsername()][1]+1); 
+        $userImmunised = array();
+        $data = array(); 
+        
+        foreach($historyImmunised as $one){  $userImmunised[$one->getUser()->getId()]   = $one->getUser();                                      } //Get immunised user array
+        foreach($user             as $one){  $data[$one->getUsername()]                 = array(in_array($one,$userImmunised)? "oui":"non",0);  } //Fill $data array with all user and immused status
+        foreach($history          as $one){  $data[$one->getUser()->getUsername()][1]   = $data[$one->getUser()->getUsername()][1]+1;           } //Fill $data array with user's selection count
          
-        
-        
 	return $this->render('CreativeDataCroissantBundle::listUser.html.twig', array('users' => $user,"selection" => $data));
     }
 
@@ -73,9 +73,10 @@ class DefaultController extends Controller {
         $historyImmunised = $this->getDoctrine()->getRepository('CreativeDataCroissantBundle:History')
                 ->findAllFromDateNotRefused(date("Y-m-d 00:00:00",strtotime("-3 weeks")),date("Y-m-d 00:00:00",  strtotime("+1 day")));
         $userImmunised = array();
+        $data = array();
+        
         foreach($historyImmunised as $one)
             $userImmunised[$one->getUser()->getId()]=$one->getUser();
-        $data = array();
         foreach($user as $one)
             if (!in_array($one, $userImmunised))
                 array_push($data,array($one->getUsername(),$one->getCoefficient()));
@@ -113,15 +114,14 @@ class DefaultController extends Controller {
      * @Template()
      */
     public function userAskAction(Request $request) {
-			$history = new \CreativeData\CroissantBundle\Entity\History();
+	$history = new \CreativeData\CroissantBundle\Entity\History();
 	$form = $this->get("form.factory")->create(new HistoryType(), $history);
-
 	$form->handleRequest($request);
 
 	if ($form->isValid()) {
 	    $em = $this->getDoctrine()->getManager();
-		$history->setUser($this->getUser());
-		$history->setOk(1);
+            $history->setUser($this->getUser());
+            $history->setOk(1);
 	    $em->persist($history);
 	    $em->flush();
 
@@ -144,10 +144,10 @@ class DefaultController extends Controller {
 	$user = $em->getRepository('CreativeDataCroissantBundle:User')->findOneByToken($token);
 
 	$history = $this->getDoctrine()->getRepository('CreativeDataCroissantBundle:History')->findOneBy(
-		array(
-		    "dateCroissant" => new DateTime(date("Y-M-d")),
-		    "user" => $user
-		)
+            array(
+                "dateCroissant" => new DateTime(date("Y-M-d")),
+                "user" => $user
+            )
 	);
 
 	$history->setOk(1);
