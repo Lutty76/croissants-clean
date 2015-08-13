@@ -32,14 +32,14 @@ class UserChose {
 		
 		// On choisi un indice aléatoire (double aleatoire du coup)
 		$rand = rand(0, sizeof($arrayCoef) - 1);
-	    $user = $this->em->getRepository('CreativeDataCroissantBundle:user')->findOneById($arrayCoef[$rand]);
+	    $user = $this->em->getRepository('CreativeDataCroissantBundle:User')->findOneById($arrayCoef[$rand]);
 		
 		// On enleve l'element tirer du tableau
 	    unset($arrayCoef[$rand]);
 	    $arrayCoef = array_values($arrayCoef); //Array_slice will be better 
 		
 		// On regarde si l'user a amener les croissant il y a moins de trois semaine
-	    $historyUser = $this->em->getRepository('CreativeDataCroissantBundle:history')->findAllFromDateAndUserId(date("Y-m-d 00:00:00", strtotime("-3 weeks")),date("Y-m-d 00:00:00", strtotime("+3 weeks")), $user->getId());
+	    $historyUser = $this->em->getRepository('CreativeDataCroissantBundle:History')->findAllFromDateAndUserId(date("Y-m-d 00:00:00", strtotime("-3 weeks")),date("Y-m-d 00:00:00", strtotime("+3 weeks")), $user->getId());
 	   
 		// Tant que oui on choisit un autre user
 	    while (sizeof($historyUser) != 0) {
@@ -49,9 +49,9 @@ class UserChose {
 		//Tant que le tableau n'est pas vide on continu
 		if (sizeof($arrayCoef) > 0) {
 		    $rand = rand(0, sizeof($arrayCoef) - 1);
-		    $user = $this->em->getRepository('CreativeDataCroissantBundle:user')->findOneById($arrayCoef[$rand]);
+		    $user = $this->em->getRepository('CreativeDataCroissantBundle:User')->findOneById($arrayCoef[$rand]);
 
-		    $historyUser = $this->em->getRepository('CreativeDataCroissantBundle:history')->findAllFromDateAndUserId(date("Y-m-d 00:00:00", strtotime("-3 weeks")),date("Y-m-d 00:00:00", strtotime("+3 weeks")), $user->getId());
+		    $historyUser = $this->em->getRepository('CreativeDataCroissantBundle:History')->findAllFromDateAndUserId(date("Y-m-d 00:00:00", strtotime("-3 weeks")),date("Y-m-d 00:00:00", strtotime("+3 weeks")), $user->getId());
 		} else {
 		//Sinon on annule le tirage
 		    return array();

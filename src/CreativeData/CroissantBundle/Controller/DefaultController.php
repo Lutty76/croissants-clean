@@ -114,7 +114,7 @@ class DefaultController extends Controller {
      * @Template()
      */
     public function userAskAction(Request $request) {
-	$history = new \CreativeData\CroissantBundle\Entity\History();
+	$history = new History();
 	$form = $this->get("form.factory")->create(new HistoryType(), $history);
 	$form->handleRequest($request);
 
