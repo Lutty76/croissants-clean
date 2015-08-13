@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use \DateTime;
 use CreativeData\CroissantBundle\Form\HistoryType;
-use CreativeData\CroissantBundle\Entiry\History;
+use CreativeData\CroissantBundle\Entity\History;
 
 class DefaultController extends Controller {
 
