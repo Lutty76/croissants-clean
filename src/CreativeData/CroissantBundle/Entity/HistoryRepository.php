@@ -46,7 +46,7 @@ class HistoryRepository extends EntityRepository {
     function findAllFromDateAndUser($date_from,$date_to, $user) {
 	return $this->getEntityManager()->createQuery('
 		    SELECT h FROM CreativeDataCroissantBundle:History h
-		    WHERE h.dateCroissant >= :date_from AND h.dateCroissant <= :date_to AND  h.userId = :idUser')
+		    WHERE h.dateCroissant >= :date_from AND h.dateCroissant <= :date_to AND  h.user = :idUser')
 			->setParameter('date_from', $date_from)->setParameter('date_to', $date_to)->setParameter('idUser', $user->getId())->getResult();
     }
     function deleteAll() {
