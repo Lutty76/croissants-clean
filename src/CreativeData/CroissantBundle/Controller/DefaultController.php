@@ -81,7 +81,12 @@ class DefaultController extends Controller {
         foreach($user as $one)
             if (!in_array($one, $userImmunised))
                 array_push($data,array($one->getUsername(),$one->getCoefficient()));
-        
+        usort($data,function ($a, $b)
+            {
+                if ($a[1] == $b[1]) { return 0;   }
+                return ($a[1] < $b[1]) ? -1 : 1;
+            }
+	);
 	return new Response(json_encode($data));
     }
     /**
@@ -97,6 +102,7 @@ class DefaultController extends Controller {
           else
             $data[$one->getUser()->getUsername()]=array($one->getUser()->getUsername(),1);
         $data = array_values($data);
+        
 	return new Response(json_encode($data));
     }
     /**
