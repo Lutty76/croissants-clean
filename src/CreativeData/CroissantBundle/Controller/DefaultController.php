@@ -221,8 +221,8 @@ class DefaultController extends Controller {
     if (isset($_POST['form'])) {
 	$em = $this->getDoctrine()->getManager();
 	$user = $em->getRepository('CreativeDataCroissantBundle:User')->findOneById($this->getUser()->getId());
-        if ($user->getCoefficient() < 20 && ($user->getLastTrap()<new DateTime(date("Y-m-d H:i:s",strtotime("-1 hour"))))) {
-	    $user->setCoefficient($user->getCoefficient() + 1);
+        if ($user->getCoefficient() < 200 && ($user->getLastTrap()<new DateTime(date("Y-m-d H:i:s",strtotime("-1 hour"))))) {
+	    $user->setCoefficient($user->getCoefficient() + 3);
 	    $user->setlastTrap(new DateTime(date("Y-m-d H:i:s")));
 	    $em->flush();
 	}
