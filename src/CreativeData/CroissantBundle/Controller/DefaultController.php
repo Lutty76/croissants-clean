@@ -183,24 +183,29 @@ class DefaultController extends Controller {
 
 	$em = $this->getDoctrine()->getManager();
 	$user = $em->getRepository('CreativeDataCroissantBundle:User')->findOneByToken($token);
-
-	$history = $this->getDoctrine()->getRepository('CreativeDataCroissantBundle:History')->findOneBy(
-		array(
-		    "dateCroissant" => new DateTime(date("Y-M-d")),
-		    "user" => $user
-		)
-	);
-
-	if ($user->getJoker() > 0) {
-	    $user->setJoker($user->getJoker() - 1);
-	    $history->setOk(2);
-	    $em->flush();
-	    return $this->render('CreativeDataCroissantBundle::userDecline.html.twig', array('chosen' => $user));
-	} else {
-	    $history->setOk(1);
-	    $em->flush();
-	    return $this->render('CreativeDataCroissantBundle::userAccept.html.twig', array('chosen' => $user));
-	}
+        if  ($history!== null){
+            $history = $this->getDoctrine()->getRepository('CreativeDataCroissantBundle:History')->findOneBy(
+                    array(
+                        "dateCroissant" => new DateTime(date("Y-M-d")),
+                        "user" => $user,
+                        "ok" => 0
+                    )
+            );
+        }
+        if  ($history!== null){
+            if ($user->getJoker() > 0) {
+                $user->setJoker($user->getJoker() - 1);
+                $history->setOk(2);
+                $em->flush();
+                return $this->render('CreativeDataCroissantBundle::userDecline.html.twig', array('chosen' => $user));
+            } else {
+                $history->setOk(1);
+                $em->flush();
+                return $this->render('CreativeDataCroissantBundle::userAccept.html.twig', array('chosen' => $user));
+            }
+        }else{
+            return $this->render('CreativeDataCroissantBundle::userAlreadyDecline.html.twig', array('chosen' => $user));
+        }
     }
 
     /**
