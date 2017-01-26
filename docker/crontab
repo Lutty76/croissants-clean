@@ -1,0 +1,3 @@
+10 1 * * mon curl -u 'admin:croi2015croi' http://127.0.0.1/admin/upAll
+0 9 * * thu curl -u 'admin:croi2015croi' http://127.0.0.1/admin/choseUser
+10 1 1 * * curl -u 'admin:croi2015croi' http://127.0.0.1/admin/resetJoker
