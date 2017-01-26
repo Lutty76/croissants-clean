@@ -166,7 +166,7 @@ class DefaultController extends Controller {
 
 	$message = \Swift_Message::newInstance()
 		->setSubject($user->getUsername() . ' a été tiré au sort pour les croissants !')
-		->setFrom('kevin@creativedata.fr')
+		->setFrom('devops@creativedata.fr')
 		->setTo("all-seineinno@creativedata.fr") //TODO set good email $user->etEmail();
 		->setBody($user->getUsername() . " ramènera les croissants demain !")
 		->addPart($user->getUsername() . " ramènera les croissants demain !");

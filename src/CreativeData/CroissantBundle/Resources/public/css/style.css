@@ -138,3 +138,9 @@ display:block;
     display:none;
     
 }
+
+.logo_saagie{
+    max-width: 500px;
+    display: block;
+    margin:auto ;
+}

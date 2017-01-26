@@ -69,7 +69,7 @@ class UserChose {
 		//On envoie le mail à la personne concerné
 	    $message = \Swift_Message::newInstance()
 		    ->setSubject('Vous avez été tiré au sort pour les croissants !')
-		    ->setFrom('kevin@creativedata.fr')
+		    ->setFrom('devops@creativedata.fr')
 		    ->setTo($user->getEmail()) //TODO set good email $user->etEmail();
 		    ->setBody($this->template->render('CreativeDataCroissantBundle:email:email.txt.twig', array('user' => $user)))
 		    ->addPart($this->template->render('CreativeDataCroissantBundle:email:email.html.twig', array('user' => $user)), "text/html");
