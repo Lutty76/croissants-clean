@@ -10,3 +10,5 @@
 /vendor/
 /web/bundles/
 nbproject/*
+app/SymfonyRequirements.php
+app/check.php
