@@ -67,7 +67,7 @@ class OAuthProvider extends OAuthUserProvider
         $mailer = $this->container->get('mailer');
              $message = \Swift_Message::newInstance()
 		    ->setSubject('Vous vous êtes inscrit pour les croissants !')
-		    ->setFrom('kevin@creativedata.fr')
+		    ->setFrom('devops@creativedata.fr')
 		    ->setTo($user->getEmail()) //TODO set good email $user->etEmail();
 		    ->setBody($template->render('CreativeDataCroissantBundle:email:signin.txt.twig', array('user' => $user)))
 		    ->addPart($template->render('CreativeDataCroissantBundle:email:signin.html.twig', array('user' => $user)), "text/html");
