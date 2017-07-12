@@ -127,7 +127,12 @@ class DefaultController extends Controller {
 
 	if ($form->isValid()) {
         $em = $this->getDoctrine()->getManager();
-        $historyCroissant = $em->getRepository('CreativeDataCroissantBundle:History')->findAllFromDateNotRefused( date("Y-m-d 00:00:00", strtotime("-5 days"),strtotime($history->getDateCroissant())), date("Y-m-d 00:00:00", strtotime("+2 days",strtotime($history->getDateCroissant()))));
+        $datePurpose=strtotime($history->getDateCroissant()->format('Y-m-d H:i:s'));
+        $historyCroissant = $em->getRepository('CreativeDataCroissantBundle:History')
+            ->findAllFromDateNotRefused(
+                date("Y-m-d 00:00:00", strtotime("-5 days",$datePurpose)),
+                date("Y-m-d 00:00:00", strtotime("+2 days",$datePurpose))
+            );
 
 
         if (sizeof($historyCroissant) == 0) {
@@ -140,7 +145,7 @@ class DefaultController extends Controller {
 
         }else{
 
-            $request->getSession()->getFlashBag()->add('notice', "Quelqu'un s'est déja proposé.");
+            $request->getSession()->getFlashBag()->add('notice', "Quelqu'un s'est déjà proposé.");
             return $this->render('CreativeDataCroissantBundle::thanks.html.twig', array("msg"=>"Quelqu'un s'est déja proposé pour le ","date"=>$history->getDateCroissant()));
 
         }
