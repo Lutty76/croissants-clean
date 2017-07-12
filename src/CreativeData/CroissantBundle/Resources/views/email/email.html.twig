@@ -3,15 +3,15 @@
 	<head>
 	</head>
 	<body>
-	    <p>{{ user.username }}, vous avez été selectionné pour apporter les croissants demain !</p>
+	    <p>{{ user.username }}, vous avez été selectionné pour apporter les croissants vendredi !</p>
 
 
 	    {% if user.joker>0 %}
-		Vous pouvez refuser en utilisant un joker ({{user.joker}} restant(s)) en cliquant sur ce lien <a href="{{ url('_decline', {'token' : user.token } ) }}">Utiliser un joker</a><br />
+		Vous pouvez refuser en utilisant un joker ({{user.joker}} restant(s)) en cliquant sur ce lien <a href="https://7-croissants.public.prod.saagie.io/userDecline/{{  user.token }}">Utiliser un joker</a><br />
 	    {% else %}
 		Vous n'avez plus de joker disponible ....<br />
 	    {% endif %}
-	    Vous pouvez accepter en cliquant sur ce lien <a href="{{ url('_accept', {'token' : user.token} ) }}">Accepter de ramener les croissants</a><br />
+	    Vous pouvez accepter en cliquant sur ce lien <a href="https://7-croissants.public.prod.saagie.io/userAccept/{{  user.token }}">Accepter de ramener les croissants</a><br />
 	    <br /><br />
 	    Si vous n'acceptez pas, ce sera accepté d'office et un mail sera envoyé à tout le monde à 16H.<br />
 
