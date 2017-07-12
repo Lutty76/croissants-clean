@@ -106,7 +106,7 @@ class AdminController extends Controller {
      */
     public function resetJokerAction() {
 	$em = $this->getDoctrine()->getManager();
-	$users = $em->getRepository('CreativeDataCroissantBundle:user')->findAll();
+	$users = $em->getRepository('CreativeDataCroissantBundle:User')->findAll();
 	   
 	foreach($users as $user)
 	{

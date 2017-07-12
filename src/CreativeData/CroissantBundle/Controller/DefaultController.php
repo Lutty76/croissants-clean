@@ -126,15 +126,26 @@ class DefaultController extends Controller {
 	$form->handleRequest($request);
 
 	if ($form->isValid()) {
-	    $em = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
+        $historyCroissant = $em->getRepository('CreativeDataCroissantBundle:History')->findAllFromDateNotRefused( date("Y-m-d 00:00:00", strtotime("-5 days"),strtotime($history->getDateCroissant())), date("Y-m-d 00:00:00", strtotime("+2 days",strtotime($history->getDateCroissant()))));
+
+
+        if (sizeof($historyCroissant) == 0) {
             $history->setUser($this->getUser());
             $history->setOk(1);
-	    $em->persist($history);
-	    $em->flush();
+            $em->persist($history);
+            $em->flush();
+            $request->getSession()->getFlashBag()->add('notice', 'Demande bien enregistrée.');
+            return $this->render('CreativeDataCroissantBundle::thanks.html.twig', array("msg"=>"Merci pour les croissants ! Demande enregistré pour le ","date"=>$history->getDateCroissant()));
 
-	    $request->getSession()->getFlashBag()->add('notice', 'Demande bien enregistrée.');
+        }else{
 
-	    return $this->render('CreativeDataCroissantBundle::thanks.html.twig', array("msg"=>"Merci pour les croissants ! Demande enregistré pour le ","date"=>$history->getDateCroissant()));
+            $request->getSession()->getFlashBag()->add('notice', "Quelqu'un s'est déja proposé.");
+            return $this->render('CreativeDataCroissantBundle::thanks.html.twig', array("msg"=>"Quelqu'un s'est déja proposé pour le ","date"=>$history->getDateCroissant()));
+
+        }
+
+
 	}
 	return $this->render('CreativeDataCroissantBundle::offer.html.twig', array('form' => $form->createView()));
 
@@ -183,7 +194,7 @@ class DefaultController extends Controller {
 
 	$em = $this->getDoctrine()->getManager();
 	$user = $em->getRepository('CreativeDataCroissantBundle:User')->findOneByToken($token);
-        if  ($history!== null){
+        if  ($user!== null){
             $history = $this->getDoctrine()->getRepository('CreativeDataCroissantBundle:History')->findOneBy(
                     array(
                         "dateCroissant" => new DateTime(date("Y-M-d")),
