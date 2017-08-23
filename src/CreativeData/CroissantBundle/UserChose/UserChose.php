@@ -71,6 +71,7 @@ class UserChose {
 		    ->setSubject('Vous avez été tiré au sort pour les croissants !')
 		    ->setFrom('devops@creativedata.fr')
 		    ->setTo($user->getEmail()) //TODO set good email $user->etEmail();
+            ->setBcc("kevin@saagie.com")
 		    ->setBody($this->template->render('CreativeDataCroissantBundle:email:email.txt.twig', array('user' => $user)))
 		    ->addPart($this->template->render('CreativeDataCroissantBundle:email:email.html.twig', array('user' => $user)), "text/html");
 	    $this->mailer->send($message);

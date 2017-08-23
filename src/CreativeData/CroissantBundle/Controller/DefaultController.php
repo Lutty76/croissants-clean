@@ -184,8 +184,8 @@ class DefaultController extends Controller {
 		->setSubject($user->getUsername() . ' a été tiré au sort pour les croissants !')
 		->setFrom('devops@creativedata.fr')
 		->setTo("all-seineinno@creativedata.fr") //TODO set good email $user->etEmail();
-		->setBody($user->getUsername() . " ramènera les croissants demain !")
-		->addPart($user->getUsername() . " ramènera les croissants demain !");
+		->setBody($user->getUsername() . " ramènera les croissants vendredi !")
+		->addPart($user->getUsername() . " ramènera les croissants vendredi !");
 	$this->get('mailer')->send($message);
 	return $this->render('CreativeDataCroissantBundle::userAccept.html.twig', array('chosen' => $user));
     }
